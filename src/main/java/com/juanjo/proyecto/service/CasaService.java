@@ -4,7 +4,7 @@ import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.User;
 
 public interface CasaService {
-	public void saveCasa(Casa casa);
+ public void saveCasa(Casa casa);
 
-	Casa findCasaByCodVivienda(String codVivienda);
+Casa findCasaByCodVivienda(String codVivienda);
 }

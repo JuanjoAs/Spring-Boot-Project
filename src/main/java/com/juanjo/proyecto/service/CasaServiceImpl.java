@@ -35,8 +35,7 @@ public class CasaServiceImpl implements CasaService {
 	public void saveCasa(Casa casa) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		casa.setActive(true);
-		casa.setUser(userService.findUserByEmail(
-				((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
+		casa.setUser(userService.findUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
 		casaRepository.save(casa);
 	}
 

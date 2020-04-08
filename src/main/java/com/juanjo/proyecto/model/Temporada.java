@@ -3,17 +3,18 @@ package com.juanjo.proyecto.model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+
 /**
  * The persistent class for the temporada database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Temporada.findAll", query = "SELECT t FROM Temporada t")
+@NamedQuery(name="Temporada.findAll", query="SELECT t FROM Temporada t")
 public class Temporada implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private float bonus;

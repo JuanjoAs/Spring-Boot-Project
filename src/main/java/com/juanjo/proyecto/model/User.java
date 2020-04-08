@@ -5,17 +5,18 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+
 /**
  * The persistent class for the user database table.
  * 
  */
 @Entity
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private boolean active;
@@ -27,10 +28,13 @@ public class User implements Serializable {
 	private String lastname;
 
 	private String password;
-
+	
+	
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+
 
 	public Set<Role> getRoles() {
 		return roles;
@@ -40,8 +44,8 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
-	// bi-directional many-to-one association to Casa
-	@OneToMany(mappedBy = "user")
+	//bi-directional many-to-one association to Casa
+	@OneToMany(mappedBy="user")
 	private List<Casa> casas;
 
 	public User() {
