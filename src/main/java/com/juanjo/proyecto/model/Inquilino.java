@@ -5,36 +5,35 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the inquilino database table.
  * 
  */
 @Entity
-@NamedQuery(name="Inquilino.findAll", query="SELECT i FROM Inquilino i")
+@NamedQuery(name = "Inquilino.findAll", query = "SELECT i FROM Inquilino i")
 public class Inquilino implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private boolean active;
 
 	private String dni;
 
-	@Column(name="fecha_alta")
+	@Column(name = "fecha_alta")
 	private Timestamp fechaAlta;
 
-	@Column(name="fecha_nac")
+	@Column(name = "fecha_nac")
 	private Timestamp fechaNac;
 
 	private String firstname;
 
 	private String lastname;
 
-	//bi-directional many-to-one association to Alquiler
-	@OneToMany(mappedBy="inquilino")
+	// bi-directional many-to-one association to Alquiler
+	@OneToMany(mappedBy = "inquilino")
 	private List<Alquiler> alquilers;
 
 	public Inquilino() {

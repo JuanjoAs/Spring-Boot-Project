@@ -4,45 +4,44 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-
 /**
  * The persistent class for the alquiler database table.
  * 
  */
 @Entity
-@NamedQuery(name="Alquiler.findAll", query="SELECT a FROM Alquiler a")
+@NamedQuery(name = "Alquiler.findAll", query = "SELECT a FROM Alquiler a")
 public class Alquiler implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@Column(name="cod_casa")
+	@Column(name = "cod_casa")
 	private String codCasa;
 
-	@Column(name="fecha_entrada")
+	@Column(name = "fecha_entrada")
 	private Timestamp fechaEntrada;
 
-	@Column(name="fecha_salida")
+	@Column(name = "fecha_salida")
 	private Timestamp fechaSalida;
 
 	private float precioBase;
 
 	private float precioFinal;
 
-	//bi-directional many-to-one association to Casa
+	// bi-directional many-to-one association to Casa
 	@ManyToOne
-	@JoinColumn(name="id_casa")
+	@JoinColumn(name = "id_casa")
 	private Casa casa;
 
-	//bi-directional many-to-one association to Inquilino
+	// bi-directional many-to-one association to Inquilino
 	@ManyToOne
-	@JoinColumn(name="id_inquilino")
+	@JoinColumn(name = "id_inquilino")
 	private Inquilino inquilino;
 
-	//bi-directional one-to-one association to Documento
-	@OneToOne(mappedBy="alquiler")
+	// bi-directional one-to-one association to Documento
+	@OneToOne(mappedBy = "alquiler")
 	private Documento documento;
 
 	public Alquiler() {

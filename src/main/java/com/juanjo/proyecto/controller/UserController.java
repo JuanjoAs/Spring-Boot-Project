@@ -1,6 +1,8 @@
 package com.juanjo.proyecto.controller;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.juanjo.proyecto.model.User;
+import com.juanjo.proyecto.service.CanvasjsChartService;
 import com.juanjo.proyecto.service.UserService;
 
 import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
@@ -28,14 +32,17 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	
-	@GetMapping({"/hello"})
-    public String hello(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
-        model.addAttribute("name", name);
-        return "jsp/hello";
-    }
-	
-	@RequestMapping(value = {  "/login" }, method = RequestMethod.GET)
+	@Autowired
+	private CanvasjsChartService canvasjsChartService;
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String springMVC(ModelMap modelMap) {
+		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
+		modelMap.addAttribute("dataPointsList", canvasjsDataList);
+		return "jsp/chart";
+	}
+
+	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView model = new ModelAndView();
 
@@ -49,12 +56,12 @@ public class UserController {
 		User user = new User();
 		model.addObject("user", user);
 		model.setViewName("user/signup");
-		model=getDatosGenerales(model);
+		model = getDatosGenerales(model);
 		return model;
 	}
 
 	private ModelAndView getDatosGenerales(ModelAndView model) {
-		model.addObject("temporada","Temporada Alta");
+		model.addObject("temporada", "Temporada Alta");
 		return model;
 	}
 
@@ -78,21 +85,21 @@ public class UserController {
 		return model;
 	}
 
-	@RequestMapping(value = { "/","/home" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public ModelAndView home() {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			User user = userService.findUserByEmail(auth.getName());
-			
-			System.out.println("Existe usuario"+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+
+			System.out.println("Existe usuario"
+					+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
-			
-		}
-		else {
-			//model.addObject("header", "sidebarLogOut");
-			model.setViewName("home/landing-page");//si no esta logueado, se ira directamente al alnding page 
+
+		} else {
+			// model.addObject("header", "sidebarLogOut");
+			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
 			return model;
 		}
 		model.setViewName("home/home");
