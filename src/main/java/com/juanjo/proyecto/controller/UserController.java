@@ -1,6 +1,8 @@
 package com.juanjo.proyecto.controller;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.juanjo.proyecto.model.User;
+import com.juanjo.proyecto.service.CanvasService;
 import com.juanjo.proyecto.service.UserService;
 
 import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
@@ -28,6 +32,16 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	
+	@Autowired
+	private CanvasService canvasjsChartService;
+ 
+	@RequestMapping(value = {  "/prueba" },method = RequestMethod.GET)
+	public String springMVC(ModelMap modelMap) {
+		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
+		modelMap.addAttribute("dataPointsList", canvasjsDataList);
+		return "graphs/homePrice";
+	}
 	
 	@GetMapping({"/hello"})
     public String hello(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
