@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.User;
 import com.juanjo.proyecto.service.CanvasService;
 import com.juanjo.proyecto.service.UserService;
@@ -36,24 +37,49 @@ public class UserController {
 	@Autowired
 	private CanvasService canvasjsChartService;
  
-	@RequestMapping(value = {  "/prueba" },method = RequestMethod.GET)
+	@RequestMapping(value = { "/prueba" },method = RequestMethod.GET)
 	public String springMVC(ModelMap modelMap) {
 		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
 		modelMap.addAttribute("dataPointsList", canvasjsDataList);
 		return "graphs/homePrice";
 	}
-	
-	@GetMapping({"/hello"})
-    public String hello(Model model, @RequestParam(value="name", required=false, defaultValue="World") String name) {
-        model.addAttribute("name", name);
-        return "jsp/hello";
-    }
-	
+	@RequestMapping(value = { "/","/home" }, method = RequestMethod.GET)
+	public ModelAndView home(ModelMap modelMap) {
+		ModelAndView model = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			User user = userService.findUserByEmail(auth.getName());
+			
+			System.out.println("Existe usuario"+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
+			model.addObject("header", "sidebarLog");
+			
+		}
+		else {
+			//model.addObject("header", "sidebarLogOut");
+			model.setViewName("home/landing-page");//si no esta logueado, se ira directamente al alnding page 
+			return model;
+		}
+		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
+		modelMap.addAttribute("dataPointsList", canvasjsDataList);
+		model.setViewName("graphs/homePrice");
+		return model;
+	}
+
 	@RequestMapping(value = {  "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView model = new ModelAndView();
 
 		model.setViewName("home/landing-page");
+		return model;
+	}
+	
+	
+	@RequestMapping(value = {  "/calendario" }, method = RequestMethod.GET)
+	public ModelAndView calendario() {
+		ModelAndView model = new ModelAndView();
+
+		model.setViewName("home/calendario");
 		return model;
 	}
 
@@ -63,14 +89,18 @@ public class UserController {
 		User user = new User();
 		model.addObject("user", user);
 		model.setViewName("user/signup");
-		model=getDatosGenerales(model);
+		return model;
+	}
+	@RequestMapping(value = { "/añadirVivienda" }, method = RequestMethod.GET)
+	public ModelAndView añadirVivienda() {
+		ModelAndView model = new ModelAndView();
+		Casa casa = new Casa();
+		model.addObject("casa", casa);
+		model.setViewName("casa/añadir");
 		return model;
 	}
 
-	private ModelAndView getDatosGenerales(ModelAndView model) {
-		model.addObject("temporada","Temporada Alta");
-		return model;
-	}
+
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public ModelAndView createUser(@Valid User user, BindingResult bindingResult) {
@@ -92,27 +122,7 @@ public class UserController {
 		return model;
 	}
 
-	@RequestMapping(value = { "/","/home" }, method = RequestMethod.GET)
-	public ModelAndView home() {
-		ModelAndView model = new ModelAndView();
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			User user = userService.findUserByEmail(auth.getName());
-			
-			System.out.println("Existe usuario"+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
-			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
-			model.addObject("header", "sidebarLog");
-			
-		}
-		else {
-			//model.addObject("header", "sidebarLogOut");
-			model.setViewName("home/landing-page");//si no esta logueado, se ira directamente al alnding page 
-			return model;
-		}
-		model.setViewName("home/home");
-		return model;
-	}
-
+	
 	@RequestMapping(value = { "/access_denied" }, method = RequestMethod.GET)
 	public ModelAndView accessDenied() {
 		ModelAndView model = new ModelAndView();
