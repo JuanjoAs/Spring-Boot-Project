@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Inicio de sesion</title>
+<title></title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -81,7 +81,7 @@
 					<small>OPTIONS</small>
 				</li>
 				<!-- /END Separator -->
-				<a href="#" class="bg-dark list-group-item list-group-item-action">
+				<a th:href="@{/calendario}" class="bg-dark list-group-item list-group-item-action">
 					<div class="d-flex w-100 justify-content-start align-items-center">
 						<span class="fa fa-calendar fa-fw mr-3"></span> <span
 							class="menu-collapsed">Calendario</span>
@@ -175,7 +175,7 @@
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<a class="navbar-brand" href="#"> <img
+			<a class="navbar-brand" th:href="@{/}"> <img
 				th:src="@{images/logov21.png}" width="130rem"
 				class="d-inline-block align-top" alt="">
 			</a>

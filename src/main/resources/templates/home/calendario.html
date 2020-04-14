@@ -1,111 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=500, initial-scale=1"/>
+<meta name="viewport" content="width=500, initial-scale=1" />
 <meta charset="UTF-8" />
 <title>Home</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	href="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.css" />
 <link rel="stylesheet" type="text/css" th:href="@{styles/style.css}" />
+<link rel="stylesheet" type="text/css" th:href="@{css/calendario.css}" />
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/33a002ef8f.js"
 	crossorigin="anonymous"></script>
-<script th:inline="javascript">
-/*<![CDATA[*/
-window.onload = function() {
- 
-var dps = new Array(new Array(),new Array(),new Array(),new Array());
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	title: {
-		text: "GANANCIAS ANUALES"
-	},
-	axisY: {
-		includeZero: false,
-		title: "Ganancias por año(en euros)"
-	},
-	legend:{
-		cursor: "pointer",
-		itemclick: toggleDataSeries
-	},
-	toolTip: {
-		shared: true
-	},
-	data: [{
-		type: "stackedBar",
-		name: "Primavera",
-		showInLegend: true,
-		xValueType: "dateTime",
-		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[0]
-	},{
-		type: "stackedBar",
-		name: "Verano",
-		showInLegend: true,
-		xValueType: "dateTime",
-		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[1]
-	},{
-		type: "stackedBar",
-		name: "Otoño",
-		showInLegend: true,
-		xValueType: "dateTime",
-		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[2]
-	},{
-		type: "stackedBar",
-		name: "Invierno",
-		showInLegend: true,
-		xValueType: "dateTime",
-		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[3]
-	}]
-});
- 
-function toggleDataSeries(e){
-	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
-		e.dataSeries.visible = false;
-	}
-	else{
-		e.dataSeries.visible = true;
-	}
-	chart.render();
-}
- 
-var xValue;
-var yValue;
-var dataPointList=[[${dataPointsList}]];
-console.log(dataPointList)
-var contador=0;
-
-
-for(let j=0;j<4;j++){
-	for(let i=0;i<6;i++){
-		xValue=parseInt(dataPointList[j][i].x);
-		yValue=parseInt(dataPointList[j][i].y);
-		
-		dps[j].push({
-			x : xValue,
-			y : yValue
-		});	
-		
-	}
-	
-}
-console.log(dataPointList[0][1].x);
-console.log(dps);
-chart.render();
- 
-}
-/*]]>*/
-</script>
 </head>
 <body>
 	<!-- NavBar START -->
@@ -120,9 +31,62 @@ chart.render();
 		<div class="col p-4">
 			<main class="container">
 				<div class="row">
-					<div class="col-xl-6 col-sm-12">
-						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					<div id="calendar"></div>
+
+					<div class="modal fade" id="event-modal">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Event</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<input type="hidden" name="event-index">
+									<form class="form-horizontal">
+										<div class="form-group row">
+											<label for="event-name" class="col-sm-4 control-label">Name</label>
+											<div class="col-sm-8">
+												<input id="event-name" name="event-name" type="text"
+													class="form-control">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="event-location" class="col-sm-4 control-label">Location</label>
+											<div class="col-sm-8">
+												<input id="event-location" name="event-location" type="text"
+													class="form-control">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label for="min-date" class="col-sm-4 control-label">Dates</label>
+											<div class="col-sm-8">
+												<div class="input-group input-daterange"
+													data-provide="datepicker">
+													<input id="min-date" name="event-start-date" type="text"
+														class="form-control">
+													<div class="input-group-prepend input-group-append">
+														<div class="input-group-text">to</div>
+													</div>
+													<input name="event-end-date" type="text"
+														class="form-control">
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">Cancel</button>
+									<button type="button" class="btn btn-primary" id="save-event">
+										Save</button>
+								</div>
+							</div>
+						</div>
 					</div>
+					<div id="context-menu"></div>
 				</div>
 			</main>
 		</div>
@@ -130,10 +94,12 @@ chart.render();
 	</div>
 	<!-- body-row END -->
 
-
-	<script th:src="@{js/canvasjs.min.js}"></script>
-	<!--  <div th:insert="fragments/footer :: footer"></div> -->
+	<script
+		src="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.js"></script>
+	<script
+		src="https://unpkg.com/js-year-calendar@latest/locales/js-year-calendar.es.js"></script>
 	<script th:src="@{js/js.js}"></script>
+
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
