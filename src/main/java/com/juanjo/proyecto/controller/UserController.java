@@ -1,6 +1,7 @@
 package com.juanjo.proyecto.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,11 +19,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.juanjo.proyecto.model.Alquiler;
 import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.User;
 import com.juanjo.proyecto.service.CanvasService;
+import com.juanjo.proyecto.service.CasaService;
 import com.juanjo.proyecto.service.UserService;
 
 import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
@@ -32,7 +36,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private CasaService casaService;
 	
 	@Autowired
 	private CanvasService canvasjsChartService;
@@ -91,16 +96,31 @@ public class UserController {
 		model.setViewName("user/signup");
 		return model;
 	}
-	@RequestMapping(value = { "/añadirVivienda" }, method = RequestMethod.GET)
-	public ModelAndView añadirVivienda() {
-		ModelAndView model = new ModelAndView();
-		Casa casa = new Casa();
-		model.addObject("casa", casa);
-		model.setViewName("casa/añadir");
-		return model;
+	/*
+	 * @RequestMapping(value = { "/añadirVivienda" }, method = RequestMethod.GET)
+	 * public ModelAndView añadirVivienda() { ModelAndView model = new
+	 * ModelAndView(); Casa casa = new Casa(); model.addObject("casa", casa);
+	 * model.setViewName("casa/añadir"); return model; }
+	 */
+
+	@RequestMapping(value = { "/añadirVivienda" }, method = RequestMethod.POST)
+	public ModelAndView añadirVivienda(WebRequest request) {
+		System.out.println(request.getParameter("nombre"));
+		System.out.println(request.getParameter("codigo"));
+		Casa x=casaService.findCasaByCodVivienda(request.getParameter("codigo"));
+		if(x==null) {
+			Casa c=new Casa();
+			c.setCodVivienda(request.getParameter("codigo"));
+			c.setNombre(request.getParameter("nombre"));
+			casaService.saveCasa(c);
+		}else {
+			System.out.println(x.toString());
+			for(Casa cc :x.getUser().getCasas()) {
+				System.out.println(cc.toString());
+			}
+		}
+		return new ModelAndView("redirect:/home");
 	}
-
-
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.POST)
 	public ModelAndView createUser(@Valid User user, BindingResult bindingResult) {

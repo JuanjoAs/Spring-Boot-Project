@@ -40,6 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
  @Override
  protected void configure(HttpSecurity http) throws Exception{
   http.authorizeRequests()
+  	.mvcMatchers("/robots.txt").permitAll()
     .antMatchers("/").permitAll()
     .antMatchers("/prueba").permitAll()
     .antMatchers("/login").permitAll()
@@ -58,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
    		.usernameParameter("email")
    		.passwordParameter("password")
    		.and()
-   	.logout()
+   .logout()
    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
    .logoutSuccessUrl("/")
    .and().rememberMe()

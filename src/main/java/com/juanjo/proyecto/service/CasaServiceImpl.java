@@ -14,6 +14,7 @@ import com.juanjo.proyecto.repository.RoleRepository;
 import com.juanjo.proyecto.repository.UserRepository;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 @Service("casaService")
 public class CasaServiceImpl implements CasaService {
@@ -38,5 +39,6 @@ public class CasaServiceImpl implements CasaService {
 		casa.setUser(userService.findUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
 		casaRepository.save(casa);
 	}
+
 
 }

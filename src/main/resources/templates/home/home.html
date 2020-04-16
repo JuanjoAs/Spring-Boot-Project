@@ -7,11 +7,14 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" th:href="@{styles/lp-styles.css}"/>
+<link rel="stylesheet" type="text/css" th:href="@{styles/lp2-styles.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{styles/style.css}" />
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/33a002ef8f.js"
 	crossorigin="anonymous"></script>
+	
 </head>
 <body class="bdyColor">
 
@@ -188,6 +191,11 @@
 
 
 	<!--  <div th:insert="fragments/footer :: footer"></div> -->
+	  <script type="text/javascript">
+    // Animations initialization
+    new WOW().init();
+  </script>
+<script th:src="@{js/lp-js.js}"></script>
 	<script th:src="@{js/js.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
