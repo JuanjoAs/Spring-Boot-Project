@@ -1,7 +1,10 @@
 package com.juanjo.proyecto.controller;
 
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.juanjo.proyecto.model.Alquiler;
 import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.User;
+import com.juanjo.proyecto.service.AlquilerService;
 import com.juanjo.proyecto.service.CanvasService;
 import com.juanjo.proyecto.service.CasaService;
 import com.juanjo.proyecto.service.UserService;
@@ -38,10 +43,13 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private CasaService casaService;
-	
+	@Autowired
+	private AlquilerService alquilerService;
 	@Autowired
 	private CanvasService canvasjsChartService;
- 
+	
+	
+	
 	@RequestMapping(value = { "/prueba" },method = RequestMethod.GET)
 	public String springMVC(ModelMap modelMap) {
 		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
@@ -83,9 +91,60 @@ public class UserController {
 	@RequestMapping(value = {  "/calendario" }, method = RequestMethod.GET)
 	public ModelAndView calendario() {
 		ModelAndView model = new ModelAndView();
-
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			User user = userService.findUserByEmail(auth.getName());
+			
+			System.out.println("Existe usuario"+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+			model.addObject("user", user.getCasas());
+			
+			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
+			model.addObject("header", "sidebarLog");
+			 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			//Conseguir las reservas
+			List<HashMap<String, Object>> fechas=new ArrayList<HashMap<String,Object>>();
+			HashMap<String, Object> o1=null;
+			for (Casa c : user.getCasas()) {
+				for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
+					System.out.println(a.toString());
+					o1=new HashMap<String, Object>();
+					o1.put("id",a.getId());
+					o1.put("name",c.getNombre());
+					o1.put("location",c.getNombre());
+					o1.put("startDate",new Date(a.getFechaEntrada().getTime()));
+					o1.put("endDate",new Date(a.getFechaSalida().getTime()));
+					o1.put("color","#2C8FC9");
+					fechas.add(o1);
+				}
+			}
+			model.addObject("fechas", fechas);
+			
+		}
+		else {
+			//model.addObject("header", "sidebarLogOut");
+			model.setViewName("home/landing-page");//si no esta logueado, se ira directamente al alnding page 
+			return model;
+		}
+		model.addObject("alquiler", new Alquiler());
 		model.setViewName("home/calendario");
 		return model;
+	}
+	@RequestMapping(value = {  "/calendario" }, method = RequestMethod.POST)
+	public ModelAndView calendarioPOST(WebRequest request) {
+		System.out.println(request.getParameter("nombre"));
+		System.out.println(request.getParameter("codigo"));
+			Casa c=casaService.findCasaByCodVivienda(request.getParameter("casa"));
+			Alquiler a=new Alquiler();
+		
+		  a.setCasa(c); 
+		  a.setFechaEntrada(fechaEntrada);
+		  a.setFechaSalida(fechaSalida);
+		  a.setPrecioBase(precio);
+		
+		  casaService.saveCasa(a);
+		 
+		
+		return new ModelAndView("redirect:/calendario");
 	}
 
 	@RequestMapping(value = { "/signup" }, method = RequestMethod.GET)

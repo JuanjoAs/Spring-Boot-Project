@@ -3,6 +3,7 @@ package com.juanjo.proyecto.model;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 /**
@@ -18,28 +19,23 @@ public class Alquiler implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	@Column(name="cod_casa")
-	private String codCasa;
-
 	@Column(name="fecha_entrada")
 	private Timestamp fechaEntrada;
 
 	@Column(name="fecha_salida")
 	private Timestamp fechaSalida;
 
-	private float precioBase;
-
-	private float precioFinal;
+	private float precio;
 
 	//bi-directional many-to-one association to Casa
 	@ManyToOne
 	@JoinColumn(name="id_casa")
 	private Casa casa;
 
-	//bi-directional many-to-one association to Inquilino
-	@ManyToOne
-	@JoinColumn(name="id_inquilino")
-	private Inquilino inquilino;
+	//bi-directional many-to-many association to Inquilino
+	
+	@ManyToMany
+	private List<Inquilino> inquilinos;
 
 	//bi-directional one-to-one association to Documento
 	@OneToOne(mappedBy="alquiler")
@@ -54,14 +50,6 @@ public class Alquiler implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getCodCasa() {
-		return this.codCasa;
-	}
-
-	public void setCodCasa(String codCasa) {
-		this.codCasa = codCasa;
 	}
 
 	public Timestamp getFechaEntrada() {
@@ -80,20 +68,12 @@ public class Alquiler implements Serializable {
 		this.fechaSalida = fechaSalida;
 	}
 
-	public float getPrecioBase() {
-		return this.precioBase;
+	public float getPrecio() {
+		return this.precio;
 	}
 
-	public void setPrecioBase(float precioBase) {
-		this.precioBase = precioBase;
-	}
-
-	public float getPrecioFinal() {
-		return this.precioFinal;
-	}
-
-	public void setPrecioFinal(float precioFinal) {
-		this.precioFinal = precioFinal;
+	public void setPrecio(float precio) {
+		this.precio = precio;
 	}
 
 	public Casa getCasa() {
@@ -104,12 +84,12 @@ public class Alquiler implements Serializable {
 		this.casa = casa;
 	}
 
-	public Inquilino getInquilino() {
-		return this.inquilino;
+	public List<Inquilino> getInquilinos() {
+		return this.inquilinos;
 	}
 
-	public void setInquilino(Inquilino inquilino) {
-		this.inquilino = inquilino;
+	public void setInquilinos(List<Inquilino> inquilinos) {
+		this.inquilinos = inquilinos;
 	}
 
 	public Documento getDocumento() {
@@ -118,6 +98,11 @@ public class Alquiler implements Serializable {
 
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
+	}
+
+	@Override
+	public String toString() {
+		return "Hay un alquiler to guapo con id="+id;
 	}
 
 }

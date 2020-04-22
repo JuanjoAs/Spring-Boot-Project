@@ -33,8 +33,8 @@ public class Inquilino implements Serializable {
 
 	private String lastname;
 
-	//bi-directional many-to-one association to Alquiler
-	@OneToMany(mappedBy="inquilino")
+	//bi-directional many-to-many association to Alquiler
+	@ManyToMany
 	private List<Alquiler> alquilers;
 
 	public Inquilino() {
@@ -102,20 +102,6 @@ public class Inquilino implements Serializable {
 
 	public void setAlquilers(List<Alquiler> alquilers) {
 		this.alquilers = alquilers;
-	}
-
-	public Alquiler addAlquiler(Alquiler alquiler) {
-		getAlquilers().add(alquiler);
-		alquiler.setInquilino(this);
-
-		return alquiler;
-	}
-
-	public Alquiler removeAlquiler(Alquiler alquiler) {
-		getAlquilers().remove(alquiler);
-		alquiler.setInquilino(null);
-
-		return alquiler;
 	}
 
 }

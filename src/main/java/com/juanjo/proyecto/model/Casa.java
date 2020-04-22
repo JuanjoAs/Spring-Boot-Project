@@ -4,39 +4,34 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
 
+
 /**
  * The persistent class for the casa database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Casa.findAll", query = "SELECT c FROM Casa c")
+@NamedQuery(name="Casa.findAll", query="SELECT c FROM Casa c")
 public class Casa implements Serializable {
-	@Override
-	public String toString() {
-		
-		return id+". "+nombre+" - "+user.getEmail()+" - "+codVivienda;
-	}
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
 	private boolean active;
 
-	private String nombre;
-
-	@Column(name = "cod_vivienda")
+	@Column(name="cod_vivienda")
 	private String codVivienda;
 
-	// bi-directional many-to-one association to Alquiler
-	@OneToMany(mappedBy = "casa")
+	private String nombre;
+
+	//bi-directional many-to-one association to Alquiler
+	@OneToMany(mappedBy="casa")
 	private List<Alquiler> alquilers;
 
-	// bi-directional many-to-one association to User
+	//bi-directional many-to-one association to User
 	@ManyToOne
-	@JoinColumn(name = "id_user")
+	@JoinColumn(name="id_user")
 	private User user;
 
 	public Casa() {
@@ -48,14 +43,6 @@ public class Casa implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
 	}
 
 	public boolean getActive() {
@@ -72,6 +59,14 @@ public class Casa implements Serializable {
 
 	public void setCodVivienda(String codVivienda) {
 		this.codVivienda = codVivienda;
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public List<Alquiler> getAlquilers() {

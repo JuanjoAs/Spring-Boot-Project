@@ -8,12 +8,11 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-	
+
 <link rel="stylesheet" type="text/css"
 	href="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.css" />
 <link rel="stylesheet" type="text/css" th:href="@{styles/style.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{css/calendario.css}" />
-<link rel="stylesheet" type="text/css" th:href="@{styles/lp2-styles.css}"/>
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -39,7 +38,7 @@
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title">Event</h5>
+									<h5 class="modal-title">Nueva Reserva</h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
@@ -49,14 +48,16 @@
 									<input type="hidden" name="event-index">
 									<form class="form-horizontal">
 										<div class="form-group row">
-											<label for="event-name" class="col-sm-4 control-label">Name</label>
+											<label for="casa" class="col-sm-4 control-label">Name</label>
 											<div class="col-sm-8">
-												<input id="event-name" name="event-name" type="text"
-													class="form-control">
+												<select class="form-control" id="casa" name="casa">
+													<option th:each="i :${user}"
+														th:value="${i.getId()}" th:text="${i.getNombre()}"></option>
+												</select>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="event-location" class="col-sm-4 control-label">Location</label>
+											<label for="event-location" class="col-sm-4 control-label">Descripcion</label>
 											<div class="col-sm-8">
 												<input id="event-location" name="event-location" type="text"
 													class="form-control">
@@ -96,15 +97,149 @@
 	</div>
 	<!-- body-row END -->
 
+	<script th:inline="javascript">
+/*<![CDATA[*/
+let calendar = null;
+
+function editEvent(event) {
+    $('#event-modal input[name="event-index"]').val(event ? event.id : '');
+    $('#event-modal input[name="event-name"]').val(event ? event.name : '');
+    $('#event-modal input[name="event-location"]').val(event ? event.location : '');
+    $('#event-modal input[name="event-start-date"]').datepicker('update', event ? event.startDate : '');
+    $('#event-modal input[name="event-end-date"]').datepicker('update', event ? event.endDate : '');
+    $('#event-modal').modal();
+}
+
+function deleteEvent(event) {
+    var dataSource = calendar.getDataSource();
+    
+    calendar.setDataSource(dataSource.filter(item => item.id == event.id));
+}
+
+function saveEvent() {
+	
+    var event = {
+        id: $('#event-modal input[name="event-index"]').val(),
+        name: $('#event-modal input[name="event-name"]').val(),
+        location: $('#event-modal input[name="event-location"]').val(),
+        startDate: $('#event-modal input[name="event-start-date"]').datepicker('getDate'),
+        endDate: $('#event-modal input[name="event-end-date"]').datepicker('getDate')
+    }
+    
+    var dataSource = calendar.getDataSource();
+
+    if (event.id) {
+        for (var i in dataSource) {
+            if (dataSource[i].id == event.id) {
+                dataSource[i].name = event.name;
+                dataSource[i].location = event.location;
+                dataSource[i].startDate = event.startDate;
+                dataSource[i].endDate = event.endDate;
+            }
+        }
+    }
+    else
+    {
+        var newId = 0;
+        for(var i in dataSource) {
+            if(dataSource[i].id > newId) {
+                newId = dataSource[i].id;
+            }
+        }
+        
+        newId++;
+        event.id = newId;
+    
+        dataSource.push(event);
+    }
+    
+    calendar.setDataSource(dataSource);
+    $('#event-modal').modal('hide');
+}
+
+$(function() {
+    var currentYear = new Date().getFullYear();
+ var datos=new Array();
+    data=[[${fechas}]];
+    for (var d of data){
+    	d["endDate"]=new Date(d["endDate"]);
+    	d["startDate"]=new Date(d["startDate"]);
+    	datos.push(d);
+    }
+   
+    console.log(data);	
+    
+    console.log(datos);
+    calendar = new Calendar('#calendar', { 
+    	language: 'es',
+        enableContextMenu: true,
+        enableRangeSelection: true,
+        contextMenuItems:[
+            {
+                text: 'Update',
+                click: editEvent
+            },
+            {
+                text: 'Delete',
+                click: deleteEvent
+            }
+        ],
+        selectRange: function(e) {
+            editEvent({ startDate: e.startDate, endDate: e.endDate });
+        },
+        mouseOnDay: function(e) {
+            if(e.events.length > 0) {
+                var content = '';
+                
+                for(var i in e.events) {
+                    content += '<div class="event-tooltip-content">'
+                                    + '<div class="event-name" style="color:' + e.events[i].color + '">' + e.events[i].name + '</div>'
+                                    + '<div class="event-location">' + e.events[i].location + '</div>'
+                                + '</div>';
+                }
+            
+                $(e.element).popover({ 
+                    trigger: 'manual',
+                    container: 'body',
+                    html:true,
+                    content: content
+                });
+                
+                $(e.element).popover('show');
+            }
+        },
+        mouseOutDay: function(e) {
+            if(e.events.length > 0) {
+                $(e.element).popover('hide');
+            }
+        },
+        dayContextMenu: function(e) {
+            $(e.element).popover('hide');
+        },
+        dataSource: datos
+    });
+    
+    $('#save-event').click(function() {
+        saveEvent();
+    });
+});
+/*]]>*/
+</script>
+
+
+
+
 	<script
 		src="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.js"></script>
 	<script
 		src="https://unpkg.com/js-year-calendar@latest/locales/js-year-calendar.es.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+
+
 	<script th:src="@{js/js.js}"></script>
 
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-		crossorigin="anonymous"></script>
+
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
 		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"

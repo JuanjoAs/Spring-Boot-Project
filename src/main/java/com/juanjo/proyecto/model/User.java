@@ -28,7 +28,10 @@ public class User implements Serializable {
 	private String lastname;
 
 	private String password;
-	
+
+	//bi-directional many-to-one association to Casa
+	@OneToMany(mappedBy="user")
+	private List<Casa> casas;
 	
 	
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -43,10 +46,9 @@ public class User implements Serializable {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-
-	//bi-directional many-to-one association to Casa
-	@OneToMany(mappedBy="user")
-	private List<Casa> casas;
+	
+	
+	
 
 	public User() {
 	}

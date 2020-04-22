@@ -2,6 +2,7 @@ package com.juanjo.proyecto.model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 /**
@@ -17,7 +18,7 @@ public class Temporada implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
-	private float bonus;
+	private Timestamp comienzo;
 
 	private String nombre;
 
@@ -32,12 +33,12 @@ public class Temporada implements Serializable {
 		this.id = id;
 	}
 
-	public float getBonus() {
-		return this.bonus;
+	public Timestamp getComienzo() {
+		return this.comienzo;
 	}
 
-	public void setBonus(float bonus) {
-		this.bonus = bonus;
+	public void setComienzo(Timestamp comienzo) {
+		this.comienzo = comienzo;
 	}
 
 	public String getNombre() {
