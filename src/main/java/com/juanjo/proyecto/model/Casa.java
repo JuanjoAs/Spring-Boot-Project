@@ -12,6 +12,8 @@ import java.util.List;
 @Entity
 @NamedQuery(name="Casa.findAll", query="SELECT c FROM Casa c")
 public class Casa implements Serializable {
+
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -98,5 +100,9 @@ public class Casa implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
+	@Override
+	public String toString() {
+		
+		return "Hay una casa con id="+this.id+" con nombre"+this.nombre+" y codVivienda"+this.codVivienda;
+	}
 }

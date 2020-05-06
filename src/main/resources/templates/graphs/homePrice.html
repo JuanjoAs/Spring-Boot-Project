@@ -17,7 +17,42 @@
 /*<![CDATA[*/
 window.onload = function() {
  
-var dps = new Array(new Array(),new Array(),new Array(),new Array());
+
+
+
+
+
+var pri=new Array();
+var ver=new Array();
+var oto=new Array();
+var inv=new Array();
+
+data=[[${pri}]];
+for (var d of data){
+	d["x"]=new Date(d["x"]);
+	pri.push(d);
+}
+data=[[${oto}]];
+for (var d of data){
+	d["x"]=new Date(d["x"]);
+	oto.push(d);
+}
+data=[[${ver}]];
+for (var d of data){
+	d["x"]=new Date(d["x"]);
+	ver.push(d);
+}
+data=[[${inv}]];
+
+for (var d of pri){
+	console.log(d);
+}
+var dps = [pri, ver, oto, inv];
+
+for (var d of data){
+	d["x"]=new Date(d["x"]);
+	inv.push(d);
+}
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	title: {
@@ -38,34 +73,34 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		type: "stackedBar",
 		name: "Primavera",
 		showInLegend: true,
-		xValueType: "dateTime",
+		xValueType: "YYYY",
 		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[0]
+		yValueFormatString: "#.0 €",
+		dataPoints: pri
 	},{
 		type: "stackedBar",
 		name: "Verano",
 		showInLegend: true,
 		xValueType: "dateTime",
 		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[1]
+		yValueFormatString: "#.0 €",
+		dataPoints: ver
 	},{
 		type: "stackedBar",
 		name: "Otoño",
 		showInLegend: true,
 		xValueType: "dateTime",
 		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[2]
+		yValueFormatString: "#.0 €",
+		dataPoints: oto
 	},{
 		type: "stackedBar",
 		name: "Invierno",
 		showInLegend: true,
 		xValueType: "dateTime",
 		xValueFormatString: "YYYY",
-		yValueFormatString: "#,##0.0 €",
-		dataPoints: dps[3]
+		yValueFormatString: "#.0 €",
+		dataPoints: inv
 	}]
 });
  
@@ -79,28 +114,25 @@ function toggleDataSeries(e){
 	chart.render();
 }
  
-var xValue;
-var yValue;
-var dataPointList=[[${dataPointsList}]];
-console.log(dataPointList)
-var contador=0;
+// var xValue;
+// var yValue;
+// var dataPointList=[[${dataPointsList}]];
+// var contador=0;
 
 
-for(let j=0;j<4;j++){
-	for(let i=0;i<6;i++){
-		xValue=parseInt(dataPointList[j][i].x);
-		yValue=parseInt(dataPointList[j][i].y);
+// for(let j=0;j<4;j++){
+// 	for(let i=0;i<6;i++){
+// 		xValue=parseInt(dataPointList[j][i].x);
+// 		yValue=parseInt(dataPointList[j][i].y);
 		
-		dps[j].push({
-			x : xValue,
-			y : yValue
-		});	
+// 		dps[j].push({
+// 			x : xValue,
+// 			y : yValue
+// 		});	
 		
-	}
+// 	}
 	
-}
-console.log(dataPointList[0][1].x);
-console.log(dps);
+// }
 chart.render();
  
 }
@@ -120,7 +152,7 @@ chart.render();
 		<div class="col p-4">
 			<main class="container">
 				<div class="row">
-					<div class="col-xl-6 col-sm-12">
+					<div class="col">
 						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
 					</div>
 				</div>

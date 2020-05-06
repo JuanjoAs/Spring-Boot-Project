@@ -14,9 +14,8 @@
 
 </head>
 <body>
-	<div th:fragment="sidebar">
 		<!-- Sidebar -->
-		<div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
+		<div th:fragment="sidebar" id="sidebar-container" class="sidebar-expanded d-none d-md-block">
 			<!-- d-* hiddens the Sidebar in smaller devices. Its itens can be kept on the Navbar 'Menu' -->
 			<!-- Bootstrap List Group -->
 			<ul class="list-group">
@@ -87,11 +86,11 @@
 							class="menu-collapsed">Calendario</span>
 					</div>
 				</a>
-				<a href="#" class="bg-dark list-group-item list-group-item-action">
+				<a th:href="@{/notificaciones}" class="bg-dark list-group-item list-group-item-action">
 					<div class="d-flex w-100 justify-content-start align-items-center">
 						<span class="fa fa-envelope-o fa-fw mr-3"></span> <span
-							class="menu-collapsed">Mensajes <span
-							class="badge badge-pill badge-primary ml-2">5</span></span>
+							class="menu-collapsed">Notificaciones<span
+							class="badge badge-pill badge-primary ml-2" th:utext="${notificaciones}"></span></span>
 					</div>
 				</a>
 				<!-- Separator without title -->
@@ -112,14 +111,12 @@
 				</a>
 			</ul>
 			<!-- List Group END-->
-		</div>
-		<!-- sidebar-container END -->
-		<!-- MODAL START -->
+			<!-- MODAL START -->
 		<div class="modal fade" id="modalAñadirCasa" tabindex="-1"
 			role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
-					<form action="/login" th:action="@{/añadirVivienda}" method="post">
+					<form  th:action="@{/añadirVivienda}" method="post">
 						<div class="modal-body">
 							<!--Card-->
 
@@ -165,7 +162,23 @@
 			</div>
 		</div>
 		<!-- MODAL END -->
-	</div>
+		</div>
+		<!-- sidebar-container END -->
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	<div th:fragment="navbar">
 		<nav class="navbar navbar-expand-md navbar-dark bg-primary navColor">
 			<button class="navbar-toggler navbar-toggler-right" type="button"

@@ -21,19 +21,21 @@
 </head>
 <body>
 	<!-- NavBar START -->
-	<div th:insert="fragments/navbar :: navbar"></div>
+	<div th:replace="fragments/navbar :: navbar"></div>
 	<!-- NavBar END -->
 	<!-- Bootstrap row -->
 	<div class="row" id="body-row">
 		<!-- Sidebar START -->
-		<div th:insert="fragments/navbar :: sidebar"></div>
+		<div th:replace="fragments/navbar :: sidebar" style="background-color: red;"></div>
 		<!-- Sidebar END -->
 		<!-- MAIN -->
 		<div class="col p-4">
-			<main class="container">
+			<main class="container-fluid">
 				<div class="row">
-					<div id="calendar"></div>
-
+				<div class="col">
+					<div id="calendar" ></div>
+					
+				</div>
 					<div class="modal fade" id="event-modal">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -46,20 +48,20 @@
 								</div>
 								<div class="modal-body">
 									<input type="hidden" name="event-index">
-									<form class="form-horizontal">
+									<form class="form-horizontal" th:action="@{/calendarioActualizar}" method="POST">
 										<div class="form-group row">
 											<label for="casa" class="col-sm-4 control-label">Name</label>
 											<div class="col-sm-8">
 												<select class="form-control" id="casa" name="casa">
 													<option th:each="i :${user}"
-														th:value="${i.getId()}" th:text="${i.getNombre()}"></option>
+														th:value="${i.getCodVivienda()}" th:text="${i.getNombre()}"></option>
 												</select>
 											</div>
 										</div>
 										<div class="form-group row">
-											<label for="event-location" class="col-sm-4 control-label">Descripcion</label>
+											<label for="event-location" class="col-sm-4 control-label">Precio</label>
 											<div class="col-sm-8">
-												<input id="event-location" name="event-location" type="text"
+												<input id="event-location" name="event-location" type="number"
 													class="form-control">
 											</div>
 										</div>
@@ -78,14 +80,15 @@
 												</div>
 											</div>
 										</div>
-									</form>
+									
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Cancel</button>
-									<button type="button" class="btn btn-primary" id="save-event">
+									<button type="submit" class="btn btn-primary" id="save-event">
 										Save</button>
 								</div>
+								</form>
 							</div>
 						</div>
 					</div>
