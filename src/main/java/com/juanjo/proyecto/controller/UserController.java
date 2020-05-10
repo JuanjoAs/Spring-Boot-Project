@@ -15,6 +15,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -68,8 +69,7 @@ public class UserController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			User user = userService.findUserByEmail(auth.getName());
 
-			System.out.println("Existe usuario"
-					+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+			System.out.println("Existe usuario"+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
 			model.addObject("notificaciones", getNumNotificaciones());
@@ -83,89 +83,64 @@ public class UserController {
 		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
 		modelMap.addAttribute("dataPointsList", canvasjsDataList);
 		User user = userService.findUserByEmail(auth.getName());
-
-		int[] invierno = { 19, 2 };
-		int[] primavera = { 20, 5 };
-		int[] verano = { 21, 8 };
-		int[] otoño = { 21, 11 };
-		
-		List<HashMap<String, Object>> pri = new ArrayList<HashMap<String, Object>>();
-		List<HashMap<String, Object>> ver = new ArrayList<HashMap<String, Object>>();
-		List<HashMap<String, Object>> oto = new ArrayList<HashMap<String, Object>>();
-		List<HashMap<String, Object>> inv = new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object> obj = null;
-		
-		SimpleDateFormat curFormater = new SimpleDateFormat("MM/dd/yyyy"); 
-		Date dateObj = new Date(); 
+		List<Alquiler> listaAlquiler =new ArrayList<Alquiler>();
 		for (Casa c : user.getCasas()) {
-
 			for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
-				
-				GregorianCalendar calendar =  new GregorianCalendar();
-				try {
-					dateObj = curFormater.parse(a.getFechaEntrada()); 
-					
-					calendar.setTimeInMillis(dateObj.getTime());
-//					System.out.println(a.getFechaEntrada()+"----"+invierno[1]+primavera[1]);
-//					System.out.println("Mes:"+calendar.get(Calendar.MONTH));
-//					System.out.println("Año:"+calendar.get(Calendar.YEAR));
-//					System.out.println("Dia:"+calendar.get(Calendar.DAY_OF_MONTH));
-					obj = new HashMap<String, Object>();
-					obj.put("x", a.getFechaEntrada());
-					obj.put("y", a.getPrecio());
-					if (calendar.get(Calendar.MONTH) < invierno[1]) {
-						if(calendar.get(Calendar.DAY_OF_MONTH) > invierno[0]&&calendar.get(Calendar.MONTH) == invierno[1]) {
-							System.out.println("primavera");
-							
-							pri.add(obj);
-						}else {
-							System.out.println("invierno");
-							inv.add(obj);
-						}
-						
-					}  else if (calendar.get(Calendar.MONTH) < primavera[1]) {
-						if(calendar.get(Calendar.DAY_OF_MONTH) > primavera[0]&&calendar.get(Calendar.MONTH) == primavera[1]) {
-							System.out.println("verano");
-							ver.add(obj);
-						}else {
-							System.out.println("primavera");
-							pri.add(obj);
-						}
-					}else if (calendar.get(Calendar.MONTH) < verano[1]) {
-						if(calendar.get(Calendar.DAY_OF_MONTH) > verano[0]&&calendar.get(Calendar.MONTH) == verano[1]) {
-							System.out.println("otoño");
-							oto.add(obj);
-						}else {
-							System.out.println("verano");
-							ver.add(obj);
-						}
-					} else if (calendar.get(Calendar.MONTH) < otoño[1]) {
-						if(calendar.get(Calendar.DAY_OF_MONTH) > otoño[0]&&calendar.get(Calendar.MONTH) == otoño[1]) {
-							System.out.println("invierno");
-							inv.add(obj);
-						}else {
-							System.out.println("otoño");
-							oto.add(obj);
-						}
-					}	
-					
-					
-					
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(a.getPrecio()>0) {
+					listaAlquiler.add(a);
 				}
-				
 			}
 		}
-		model.addObject("pri",pri);
-		model.addObject("ver",ver);
-		model.addObject("oto",oto);
-		model.addObject("inv",inv);
+		SimpleDateFormat curFormater = new SimpleDateFormat("MM/dd/yyyy"); 
+		Date dateObj = new Date(); 
+		GregorianCalendar calendar =  new GregorianCalendar();
+		
+			
+		for (Alquiler alquiler : listaAlquiler) {
+			try {
+				dateObj=curFormater.parse(alquiler.getFechaEntrada());
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(getSeason(dateObj)==1) {
+			
+			}
+		}
+		
 		model.setViewName("graphs/homePrice");
 		return model;
 	}
+	public int getSeason(Date today){
 
+	    // the months are one less because GC is 0-based for the months, but not days.
+	    // i.e. 0 = January.
+	   
+	    GregorianCalendar dateToday = new GregorianCalendar();
+	    dateToday.setTime(today);
+	    int year=dateToday.get(Calendar.YEAR);
+	    GregorianCalendar springstart = new GregorianCalendar(year, 2, 20);
+	    GregorianCalendar summerstart = new GregorianCalendar(year, 4, 20);
+	    GregorianCalendar fallstart = new GregorianCalendar(year, 8, 20);
+	    GregorianCalendar winterstart = new GregorianCalendar(year, 10, 20);
+
+	    if (dateToday.after(springstart)&&dateToday.before(summerstart))
+	        return 0;//Primavera
+
+	    else if (dateToday.after(summerstart)&&dateToday.before(fallstart))
+	        return 1;//Verano
+
+	    else if (dateToday.after(fallstart)&&dateToday.before(winterstart))
+	        return 2;//Otoño
+
+	    else if (dateToday.after(winterstart)&&dateToday.before(springstart))
+	        return 3;//Invierno
+
+	    else 
+	        return -1;//Error
+	    
+	   
+	}
 	@RequestMapping(value = { "/notificaciones" }, method = RequestMethod.GET)
 	public ModelAndView notificaciones(ModelMap modelMap) {
 		ModelAndView model = new ModelAndView();
