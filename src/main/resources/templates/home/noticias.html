@@ -27,27 +27,34 @@
 		<!-- MAIN -->
 		<div class="col p-4">
 			<main class="container">
-				<div class="row">
-					<div class="col-xl-12 col-sm-12">
-						
-						<div th:if="${not #lists.isEmpty(notificacionesList)}">
-							<h2 class="mb-4 text-primary">NOTIFICACIONES</h2>
-							<table class="table table-striped">
-								<tr th:each="notificacion : ${notificacionesList}">
-								<script> console.log('[[${notificacion}]]')</script>
-									<td th:class ="${notificacion.getImagen()}"></td>
-									<td th:text="${notificacion.getMensaje()}"></td>
-									<td ><a th:href="${notificacion.getRuta()}">Gestionar ahora</a></td>
-								</tr>
-							</table>
-						</div>
+				<div th:each="n : ${noticias}" class="card">
+					<div class="card-header">Featured</div>
+					<div class="card-body">
+						<h5 class="card-title">Special title treatment</h5>
+						<p class="card-text">
+							<span th:text="${n}"></span>
+						</p>
+						<a href="#" class="btn btn-primary">Go somewhere</a>
 					</div>
 				</div>
-			</main>
 		</div>
-		<!-- Main Col END -->
+		</main>
+	</div>
+	<!-- Main Col END -->
 	</div>
 	<!-- body-row END -->
+	<script th:inline="javascript">
+/*<![CDATA[*/
+console.log([[${noticias}]]);
+var noticias=[];
+var data=[[${noticias}]];
+for (var d of data){
+		noticias.push([d.split("\r\n")]);
+}
+console.log(noticias);
+/*]]>*/
+</script>
+
 
 
 	<script th:src="@{js/canvasjs.min.js}"></script>

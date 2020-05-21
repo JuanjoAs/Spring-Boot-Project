@@ -15,7 +15,7 @@
 	crossorigin="anonymous"></script>
 <script th:inline="javascript">
 /*<![CDATA[*/
-window.onload = function () {
+ window.onload = function () {
 	 
 	 var pri=[];
 	 var ver=[];
@@ -47,17 +47,18 @@ window.onload = function () {
 	 console.log(oto);
 	 console.log(inv);
 	 
+	 
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	 title:{
-	      text: "Ganancias por estación y año"
+	      text: "Ganancias por estación"
 	      },
 	axisX: {
 		interval: 1,
 		intervalType: "year"
 	},
 	axisY:{
-		valueFormatString:"#€",
+		valueFormatString:"#0€",
 		gridColor: "#B6B1A8",
 		tickColor: "#B6B1A8"
 	},
@@ -72,8 +73,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data: [{
 		type: "stackedColumn",
 		showInLegend: true,
-		yValueFormatString: "#0€",
-		color: "#7E9F2E",
+		color: "green",
 		name: "Primavera",
 		dataPoints: pri
 		},
@@ -81,21 +81,21 @@ var chart = new CanvasJS.Chart("chartContainer", {
 			type: "stackedColumn",
 			showInLegend: true,
 			name: "Verano",
-			color: "#008000",
+			color: "yellow",
 			dataPoints: ver
 		},
 		{        
 			type: "stackedColumn",
 			showInLegend: true,
 			name: "Otoño",
-			color: "#67403A",
+			color: "#695A42",
 			dataPoints: oto
 		},
 		{        
 			type: "stackedColumn",
 			showInLegend: true,
 			name: "Invierno",
-			color: "#808080",
+			color: "#B6B1A8",
 			dataPoints: inv
 	}]
 });
@@ -112,7 +112,7 @@ function toolTipContent(e) {
 	}
 	str2 = "<span style = \"color:DodgerBlue;\"><strong>"+(e.entries[0].dataPoint.x).getFullYear()+"</strong></span><br/>";
 	total = Math.round(total * 100) / 100;
-	str3 = "<span style = \"color:Tomato\">Total:</span><strong> $"+total+"</strong>bn<br/>";
+	str3 = "<span style = \"color:Tomato\">Total:</span><strong> "+total+"</strong>€<br/>";
 	return (str2.concat(str)).concat(str3);
 }
 

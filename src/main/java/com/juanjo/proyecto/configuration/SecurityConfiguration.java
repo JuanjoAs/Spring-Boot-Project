@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
   http.authorizeRequests()
   	.mvcMatchers("/robots.txt").permitAll()
     .antMatchers("/").permitAll()
+    .antMatchers("/txt").permitAll()
     .antMatchers("/prueba").permitAll()
     .antMatchers("/login").permitAll()
     .antMatchers("/home").permitAll()

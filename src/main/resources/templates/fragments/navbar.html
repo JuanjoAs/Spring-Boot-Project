@@ -67,7 +67,7 @@
 						<span class="menu-collapsed">Contraseña</span>
 					</a>
 				</div>
-				<a href="#" class="bg-dark list-group-item list-group-item-action">
+				<a href="/noticias" th:href="@{/noticias}" class="bg-dark list-group-item list-group-item-action">
 					<div class="d-flex w-100 justify-content-start align-items-center">
 						<span class="fa fa-newspaper fa-fw mr-3"></span> <span
 							class="menu-collapsed">Noticias</span>
@@ -200,11 +200,9 @@
 					</a>
 						<div class="dropdown-menu dropdown-menu-right bg-dark"
 							aria-labelledby="navbarDropdown">
-							<a class="dropdown-item text-white" href="#">Action</a> <a
-								class="dropdown-item text-white" href="#">Another action</a>
+							
 							<!-- 						<div class="dropdown-divider "></div> -->
-							<a class="dropdown-item text-white" th:href="@{/logout}">Log
-								out</a>
+							<a class="dropdown-item text-white" th:href="@{/logout}">Cerrar sesión</a>
 						</div></li>
 
 					</li>
