@@ -7,15 +7,21 @@
 
 
 /* SIDEBAR */
+.padding-especial{
+	padding-left:225px;
+	padding-top:40px;
+}
 
 #body-row {
     margin-left:0;
     margin-right:0;
 }
 #sidebar-container {
-    min-height: 100vh;   
+   
+    height: 100vh;
     background-color: #333;
-    padding: 0;
+    width: 225px;
+    z-index: 1038;
 }
 
 /* Sidebar sizes when expanded and expanded */
@@ -53,6 +59,27 @@
 .logo-separator {
     background-color: #333;    
     height: 60px;
+}
+.dropdown-menu >  a:hover, .dropdown-menu >  a:focus {
+            background-image:none !important;
+            color: black !important;
+ }
+ .dropdown-menu >  a:hover, .dropdown-menu >  a:focus {
+            background-color:white;
+            color: black;
+ }
+ 
+ .sb-sidenav-footer {
+    padding: 0.75rem;
+    width: 225px;
+    flex-shrink: 0;
+    background-color: #343a40;
+  	position: fixed;
+    bottom: 0;
+  }
+  .small {
+  font-size: 80%;
+  font-weight: 400;
 }
 
 /* Closed submenu icon */

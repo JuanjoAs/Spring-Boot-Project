@@ -3,11 +3,11 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import com.juanjo.proyecto.model.Alquiler;
-import com.juanjo.proyecto.model.Casa;
+import com.juanjo.proyecto.model.Inquilino;
 import com.juanjo.proyecto.model.User;
-@Repository("alquilerRepository")
-public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
- List<Alquiler> findByCasa(Casa casa);
- Alquiler findById(int id);
+@Repository("inquilinoRepository")
+public interface InquilinoRepository extends JpaRepository<Inquilino, Long> {
+ List<Inquilino> findByAlquilers(Alquiler alquiler);
 }

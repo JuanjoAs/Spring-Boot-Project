@@ -13,9 +13,15 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/33a002ef8f.js"
 	crossorigin="anonymous"></script>
+	
+	
+	
 <script th:inline="javascript">
+
 /*<![CDATA[*/
+
 window.onload = function () {
+	
 	 
 	 var pri=[];
 	 var ver=[];
@@ -56,7 +62,9 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		interval: 1,
 		intervalType: "year"
 	},
+	
 	axisY:{
+		title:"Euros",
 		valueFormatString:"#€",
 		gridColor: "#B6B1A8",
 		tickColor: "#B6B1A8"
@@ -72,16 +80,19 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data: [{
 		type: "stackedColumn",
 		showInLegend: true,
-		yValueFormatString: "#0€",
-		color: "#7E9F2E",
+		color: "green",
 		name: "Primavera",
+		yValueFormatString: "#0.#€",
+		indexLabelPlacement: "outside",
 		dataPoints: pri
 		},
 		{        
 			type: "stackedColumn",
 			showInLegend: true,
 			name: "Verano",
-			color: "#008000",
+			color: "orange",
+			yValueFormatString: "#0.#€",
+			indexLabelPlacement: "outside",
 			dataPoints: ver
 		},
 		{        
@@ -89,13 +100,17 @@ var chart = new CanvasJS.Chart("chartContainer", {
 			showInLegend: true,
 			name: "Otoño",
 			color: "#67403A",
+			yValueFormatString: "#0.#€",
+			indexLabelPlacement: "outside",
 			dataPoints: oto
 		},
 		{        
 			type: "stackedColumn",
 			showInLegend: true,
 			name: "Invierno",
-			color: "#808080",
+			color: "lightblue",
+			yValueFormatString: "#0.#€",
+			indexLabelPlacement: "outside",
 			dataPoints: inv
 	}]
 });
@@ -106,13 +121,13 @@ function toolTipContent(e) {
 	var total = 0;
 	var str2, str3;
 	for (var i = 0; i < e.entries.length; i++){
-		var  str1 = "<span style= \"color:"+e.entries[i].dataSeries.color + "\"> "+e.entries[i].dataSeries.name+"</span>: $<strong>"+e.entries[i].dataPoint.y+"</strong>bn<br/>";
+		var  str1 = "<span style= \"color:"+e.entries[i].dataSeries.color + "\"> "+e.entries[i].dataSeries.name+"</span>: <strong>"+e.entries[i].dataPoint.y+"</strong>€<br/>";
 		total = e.entries[i].dataPoint.y + total;
 		str = str.concat(str1);
 	}
 	str2 = "<span style = \"color:DodgerBlue;\"><strong>"+(e.entries[0].dataPoint.x).getFullYear()+"</strong></span><br/>";
 	total = Math.round(total * 100) / 100;
-	str3 = "<span style = \"color:Tomato\">Total:</span><strong> $"+total+"</strong>bn<br/>";
+	str3 = "<span style = \"color:Tomato\">Total:</span><strong>"+total+"</strong> €<br/>";
 	return (str2.concat(str)).concat(str3);
 }
 
@@ -133,16 +148,47 @@ function toolTipContent(e) {
 </head>
 <body >
 	<!-- NavBar START -->
-	<div th:insert="fragments/navbar :: navbar"></div>
+	<div th:insert="fragments/navbar :: navbar" class="sticky-top"></div>
 	<!-- NavBar END -->
+	<th:block th:include="fragments/navbar :: modals"></th:block>
 	<!-- Bootstrap row -->
 	<div class="row" id="body-row">
 		<!-- Sidebar START -->
 		<div th:insert="fragments/navbar :: sidebar"></div>
 		<!-- Sidebar END -->
 		<!-- MAIN -->
-		<div class="col p-4">
+		<div class="col padding-especial">
 			<main class="container">
+				<div class="row">
+					<div class="col-xl-6 col-sm-12">
+						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-6 col-sm-12">
+						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-6 col-sm-12">
+						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-6 col-sm-12">
+						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-6 col-sm-12">
+						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xl-6 col-sm-12">
+						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-xl-6 col-sm-12">
 						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
@@ -153,6 +199,7 @@ function toolTipContent(e) {
 		<!-- Main Col END -->
 	</div>
 	<!-- body-row END -->
+
 
 
 	<script th:src="@{js/canvasjs.min.js}"></script>
@@ -169,5 +216,14 @@ function toolTipContent(e) {
 		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
 		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
 		crossorigin="anonymous"></script>
+		<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/js/bootstrap-select.min.js"></script>
+
+<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/js/i18n/defaults-es_ES.min.js"></script>
+	
 </body>
 </html>

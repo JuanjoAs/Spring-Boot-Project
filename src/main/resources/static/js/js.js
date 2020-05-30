@@ -30,3 +30,19 @@ function SidebarCollapse () {
 //-------------------------------------
 //-----------CALENDARIO----------------
 //-------------------------------------
+
+function anadirInquilino () {
+	var x = document.getElementById("botonAnadirInquilino");
+	  if (x.style.display === "none") {
+	    x.style.display = "block";
+	  } else {
+	    x.style.display = "none";
+	  }
+	  
+	  var x = document.getElementById("anadirInquilinoExtra");
+	  if (x.style.display === "none") {
+	    x.style.display = "block";
+	  } else {
+	    x.style.display = "none";
+	  }
+}

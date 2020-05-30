@@ -15,13 +15,16 @@ import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -46,11 +49,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.juanjo.proyecto.model.Alquiler;
 import com.juanjo.proyecto.model.Casa;
+import com.juanjo.proyecto.model.Inquilino;
 import com.juanjo.proyecto.model.Notificacion;
 import com.juanjo.proyecto.model.User;
 import com.juanjo.proyecto.service.AlquilerService;
 import com.juanjo.proyecto.service.CanvasService;
 import com.juanjo.proyecto.service.CasaService;
+import com.juanjo.proyecto.service.InquilinoService;
 import com.juanjo.proyecto.service.UserService;
 
 import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
@@ -64,6 +69,8 @@ public class UserController {
 	private CasaService casaService;
 	@Autowired
 	private AlquilerService alquilerService;
+	@Autowired
+	private InquilinoService inquilinoService;
 	@Autowired
 	private CanvasService canvasjsChartService;
 
@@ -82,7 +89,9 @@ public class UserController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			User user = userService.findUserByEmail(auth.getName());
 
-			System.out.println("Existe usuario"+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+			// System.out.println("Existe usuario"+
+			// ((org.springframework.security.core.userdetails.User)
+			// auth.getPrincipal()).getUsername());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
 			model.addObject("notificaciones", getNumNotificaciones());
@@ -97,39 +106,39 @@ public class UserController {
 		modelMap.addAttribute("dataPointsList", canvasjsDataList);
 		User user = userService.findUserByEmail(auth.getName());
 		List<Alquiler> listaAlquiler = new ArrayList<Alquiler>();
-		
+
 		List<Map<String, Object>> pri = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> ver = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> oto = new ArrayList<Map<String, Object>>();
 		List<Map<String, Object>> inv = new ArrayList<Map<String, Object>>();
 		for (Casa c : user.getCasas()) {
 			for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
-				if(a.getPrecio()>0) {
+				if (a.getPrecio() > 0) {
 					listaAlquiler.add(a);
 				}
 			}
 		}
-		SimpleDateFormat curFormater = new SimpleDateFormat("MM/dd/yyyy"); 
-		Date dateObj = new Date(); 
-		GregorianCalendar calendar =  new GregorianCalendar();
-		
+		SimpleDateFormat curFormater = new SimpleDateFormat("MM/dd/yyyy");
+		Date dateObj = new Date();
+		GregorianCalendar calendar = new GregorianCalendar();
+
 		for (Alquiler alquiler : listaAlquiler) {
-			System.out.println("//////////////////////////////////////////////////");
-			System.out.println(alquiler.getFechaEntrada());
+			// System.out.println("//////////////////////////////////////////////////");
+			// System.out.println(alquiler.getFechaEntrada());
 			try {
-				dateObj=curFormater.parse(alquiler.getFechaEntrada());
+				dateObj = curFormater.parse(alquiler.getFechaEntrada());
 				calendar.setTimeInMillis(dateObj.getTime());
-				Map xxx=new HashMap<String, Object>();
+				Map xxx = new HashMap<String, Object>();
 				xxx.put("x", calendar.get(Calendar.YEAR));
 				xxx.put("y", alquiler.getPrecio());
-				System.out.println("fecha: "+getSeason(dateObj));
+				// System.out.println("fecha: "+getSeason(dateObj));
 				switch (getSeason(dateObj)) {
-				
-				
-				case 0: 
+
+				case 0:
 					if (!pri.isEmpty()) {
 						for (Map m : pri) {
-							System.out.println("entra al if: " + m.get("x").equals(calendar.get(Calendar.YEAR)));
+							// System.out.println("entra al if: " +
+							// m.get("x").equals(calendar.get(Calendar.YEAR)));
 							if (m.get("x").equals(calendar.get(Calendar.YEAR))) {
 								float precio = (float) m.get("y");
 								m.put("y", (float) m.get("y") + (float) xxx.get("y"));
@@ -137,14 +146,15 @@ public class UserController {
 							}
 						}
 					}
-					if(xxx!=null) {
+					if (xxx != null) {
 						pri.add(xxx);
 					}
 					break;
 				case 1:
 					if (!ver.isEmpty()) {
 						for (Map m : ver) {
-							System.out.println("entra al if: " + m.get("x").equals(calendar.get(Calendar.YEAR)));
+							// System.out.println("entra al if: " +
+							// m.get("x").equals(calendar.get(Calendar.YEAR)));
 							if (m.get("x").equals(calendar.get(Calendar.YEAR))) {
 								float precio = (float) m.get("y");
 								m.put("y", (float) m.get("y") + (float) xxx.get("y"));
@@ -152,14 +162,15 @@ public class UserController {
 							}
 						}
 					}
-					if(xxx!=null) {
+					if (xxx != null) {
 						ver.add(xxx);
 					}
 					break;
 				case 2:
 					if (!oto.isEmpty()) {
 						for (Map m : oto) {
-							System.out.println("entra al if: " + m.get("x").equals(calendar.get(Calendar.YEAR)));
+							// System.out.println("entra al if: " +
+							// m.get("x").equals(calendar.get(Calendar.YEAR)));
 							if (m.get("x").equals(calendar.get(Calendar.YEAR))) {
 								float precio = (float) m.get("y");
 								m.put("y", (float) m.get("y") + (float) xxx.get("y"));
@@ -167,16 +178,17 @@ public class UserController {
 							}
 						}
 					}
-					
-					if(xxx!=null) {
+
+					if (xxx != null) {
 						oto.add(xxx);
 					}
 					break;
 				case 3:
 					if (!inv.isEmpty()) {
 						for (Map m : inv) {
-							System.out.println(m);
-							System.out.println("entra al if: " + m.get("x").equals(calendar.get(Calendar.YEAR)));
+							// System.out.println(m);
+							// System.out.println("entra al if: " +
+							// m.get("x").equals(calendar.get(Calendar.YEAR)));
 							if (m.get("x").equals(calendar.get(Calendar.YEAR))) {
 								float precio = (float) m.get("y");
 								m.put("y", (float) m.get("y") + (float) xxx.get("y"));
@@ -184,69 +196,94 @@ public class UserController {
 							}
 						}
 					}
-					
-					if(xxx!=null) {
+
+					if (xxx != null) {
 						inv.add(xxx);
 					}
-					
+
 					break;
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 		}
-		model.addObject("pri",pri);
-		model.addObject("ver",ver);
-		model.addObject("oto",oto);
-		model.addObject("inv",inv);
+		model.addObject("pri", pri);
+		model.addObject("ver", ver);
+		model.addObject("oto", oto);
+		model.addObject("inv", inv);
 		model.setViewName("graphs/homePrice");
+		model = añadirNavbarOptions(model, user);
 		return model;
 	}
-	
-	
-	public int getSeason(Date today){
 
-	    // the months are one less because GC is 0-based for the months, but not days.
-	    // i.e. 0 = January.
-	   
-	    GregorianCalendar dateToday = new GregorianCalendar();
-	    dateToday.setTime(today);
-	    int year=dateToday.get(Calendar.YEAR);
-	    System.out.println("Año:"+ year+"--- fecha: "+dateToday.get(Calendar.DAY_OF_MONTH)+"/"+dateToday.get(Calendar.MONTH)+"/"+dateToday.get(Calendar.YEAR));
-	    GregorianCalendar springstart = new GregorianCalendar(year, 2, 20);
-	    GregorianCalendar summerstart = new GregorianCalendar(year, 4, 20);
-	    GregorianCalendar fallstart = new GregorianCalendar(year, 8, 20);
-	    GregorianCalendar winterstart = new GregorianCalendar(year, 10, 20);
-	    System.out.println("Primavera: "+springstart.get(Calendar.DAY_OF_MONTH)+"/"+springstart.get(Calendar.MONTH)+"/"+springstart.get(Calendar.YEAR));
-	    System.out.println("Verano: "+summerstart.get(Calendar.DAY_OF_MONTH)+"/"+summerstart.get(Calendar.MONTH)+"/"+summerstart.get(Calendar.YEAR));
-	    System.out.println("Otoño: "+fallstart.get(Calendar.DAY_OF_MONTH)+"/"+fallstart.get(Calendar.MONTH)+"/"+fallstart.get(Calendar.YEAR));
-	    System.out.println("Invierno: "+winterstart.get(Calendar.DAY_OF_MONTH)+"/"+winterstart.get(Calendar.MONTH)+"/"+winterstart.get(Calendar.YEAR));
-
-	    if (dateToday.after(springstart)&&dateToday.before(summerstart))
-	        return 0;//Primavera
-
-	    else if (dateToday.after(summerstart)&&dateToday.before(fallstart))
-	        return 1;//Verano
-
-	    else if (dateToday.after(fallstart)&&dateToday.before(winterstart))
-	        return 2;//Otoño
-
-	    else if (dateToday.after(winterstart)||dateToday.before(springstart))
-	        return 3;//Invierno
-
-	    else 
-	        return -1;//Error
-	    
-	   
+	private ModelAndView añadirNavbarOptions(ModelAndView model, User user) {
+		model.addObject("viviendas", user.getCasas());
+		List<Inquilino> inqu = new ArrayList<Inquilino>();
+		for (Casa casa : user.getCasas()) {
+			for (Alquiler a : casa.getAlquilers()) {
+				if (a.getInquilino() != null) {
+					inqu.add(a.getInquilino());
+				}
+			}
+		}
+		for (Inquilino i : inqu) {
+			System.out.println("hay un inquilino" + i);
+		}
+		model.addObject("inquilinos", inqu);
+		model.addObject("reserva", new Alquiler());
+		// model.addObject("inqui",new Inquilino());
+		return model;
 	}
+
+	public int getSeason(Date today) {
+
+		// the months are one less because GC is 0-based for the months, but not days.
+		// i.e. 0 = January.
+
+		GregorianCalendar dateToday = new GregorianCalendar();
+		dateToday.setTime(today);
+		int year = dateToday.get(Calendar.YEAR);
+		// System.out.println("Año:"+ year+"--- fecha:
+		// "+dateToday.get(Calendar.DAY_OF_MONTH)+"/"+dateToday.get(Calendar.MONTH)+"/"+dateToday.get(Calendar.YEAR));
+		GregorianCalendar springstart = new GregorianCalendar(year, 2, 20);
+		GregorianCalendar summerstart = new GregorianCalendar(year, 4, 20);
+		GregorianCalendar fallstart = new GregorianCalendar(year, 8, 20);
+		GregorianCalendar winterstart = new GregorianCalendar(year, 10, 20);
+		// System.out.println("Primavera:
+		// "+springstart.get(Calendar.DAY_OF_MONTH)+"/"+springstart.get(Calendar.MONTH)+"/"+springstart.get(Calendar.YEAR));
+		// System.out.println("Verano:
+		// "+summerstart.get(Calendar.DAY_OF_MONTH)+"/"+summerstart.get(Calendar.MONTH)+"/"+summerstart.get(Calendar.YEAR));
+		// System.out.println("Otoño:
+		// "+fallstart.get(Calendar.DAY_OF_MONTH)+"/"+fallstart.get(Calendar.MONTH)+"/"+fallstart.get(Calendar.YEAR));
+		// System.out.println("Invierno:
+		// "+winterstart.get(Calendar.DAY_OF_MONTH)+"/"+winterstart.get(Calendar.MONTH)+"/"+winterstart.get(Calendar.YEAR));
+
+		if (dateToday.after(springstart) && dateToday.before(summerstart))
+			return 0;// Primavera
+
+		else if (dateToday.after(summerstart) && dateToday.before(fallstart))
+			return 1;// Verano
+
+		else if (dateToday.after(fallstart) && dateToday.before(winterstart))
+			return 2;// Otoño
+
+		else if (dateToday.after(winterstart) || dateToday.before(springstart))
+			return 3;// Invierno
+
+		else
+			return -1;// Error
+
+	}
+
 	@RequestMapping(value = { "/notificaciones" }, method = RequestMethod.GET)
 	public ModelAndView notificaciones(ModelMap modelMap) {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			User user = userService.findUserByEmail(auth.getName());
+			user = userService.findUserByEmail(auth.getName());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
 			model.addObject("notificacionesList", getNotificaciones());
@@ -255,7 +292,7 @@ public class UserController {
 			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
 			return model;
 		}
-
+		model = añadirNavbarOptions(model, user);
 		model.setViewName("home/notificaciones");
 		return model;
 	}
@@ -267,10 +304,10 @@ public class UserController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			User user = userService.findUserByEmail(auth.getName());
 			for (Casa c : user.getCasas()) {
-				System.out.println("Casa:" + c);
+				// System.out.println("Casa:" + c);
 				for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
-					System.out.println("Alquiler:" + a);
-					if (a.getInquilinos().isEmpty()) {
+					// System.out.println("Alquiler:" + a);
+					if (a.getInquilino() == null) {
 						x++;
 					}
 				}
@@ -290,16 +327,17 @@ public class UserController {
 
 				for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
 
-					if (a.getInquilinos().isEmpty()) {
+					if (a.getInquilino() == null) {
 						notificaciones.add(new Notificacion("fas fa-user-cog fa-3x",
-								"No has registrado ningún inquilino para esta reserva. (COD:"+a.getId()+")", "/gestionar/"+a.getId()));
+								"No has registrado ningún inquilino para esta reserva. (COD:" + a.getId() + ")",
+								"/gestionar/" + a.getId()));
 					}
 					x++;
 				}
 			}
 		}
 		for (Notificacion notificacion : notificaciones) {
-			System.out.println(notificacion.getMensaje());
+			// System.out.println(notificacion.getMensaje());
 		}
 		return notificaciones;
 	}
@@ -316,22 +354,24 @@ public class UserController {
 	public ModelAndView calendario() {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			User user = userService.findUserByEmail(auth.getName());
+			user = userService.findUserByEmail(auth.getName());
 
-			System.out.println("Existe usuario"
-					+ ((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername());
+			// System.out.println("Existe usuario"+
+			// ((org.springframework.security.core.userdetails.User)
+			// auth.getPrincipal()).getUsername());
 			model.addObject("user", user.getCasas());
 			model.addObject("notificaciones", getNumNotificaciones());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			// Conseguir las reservas
-			List<HashMap<String, Object>> fechas = new ArrayList<HashMap<String, Object>>();
-			HashMap<String, Object> o1 = null;
+			List<Map<String, Object>> fechas = new ArrayList<Map<String, Object>>();
+			Map<String, Object> o1 = null;
 			for (Casa c : user.getCasas()) {
 				for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
-					System.out.println(a.toString());
+					// System.out.println(a.toString());
 					o1 = new HashMap<String, Object>();
 					o1.put("id", a.getId());
 					o1.put("name", c.getNombre());
@@ -350,86 +390,159 @@ public class UserController {
 			return model;
 		}
 		model.addObject("alquiler", new Alquiler());
+		model = añadirNavbarOptions(model, user);
 		model.setViewName("home/calendario");
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/nuevoInquilino" }, method = RequestMethod.GET)
 	public ModelAndView crearInquilino() {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			User user = userService.findUserByEmail(auth.getName());
+			user = userService.findUserByEmail(auth.getName());
 			model.addObject("user", user.getCasas());
 			model.addObject("notificaciones", getNumNotificaciones());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
-			
+
 		} else {
 			// model.addObject("header", "sidebarLogOut");
+
 			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
 			return model;
 		}
-		
-		model.setViewName("inquilino/nuevo");
+		int x = 0;
+		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object>map=null;
+		for (Casa c : user.getCasas()) {
+			x=0;
+			map=new HashMap<String, Object>();
+			for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
+				if (a.getInquilino() == null) {
+					if(x==0) {
+						map.put(new String("casa"), new String(c.getNombre()+""));
+						x++;
+					}
+					map.put(a.getId()+"", "Reserva ("+a.getFechaEntrada()+"-"+a.getFechaSalida()+")");
+				}
+			}
+			if(!map.isEmpty()) {
+				list.add(map);
+				map=null;
+			}
+		}
+		model.addObject("listaReservas",list);
+		model = añadirNavbarOptions(model, user);
+		model.setViewName("inquilino/anadirInquilino");
 		return model;
 	}
+
+	@RequestMapping(value = { "/guardarInquilino" }, method = RequestMethod.POST)
+	public ModelAndView guardarInquilino(WebRequest request) {
+		Inquilino i = new Inquilino();
+		List<Alquiler> aa = new ArrayList<Alquiler>();
+		if(request.getParameter("selectReserva")!=null) {
+			for(String s:request.getParameterValues("selectReserva")) {
+					System.out.println("Prueba :"+s);
+				
+				aa.add(alquilerService.findById(Integer.parseInt(s)));
+			
+			}
+			i.setAlquilers(aa);
+		}
+		
+		i.setDni(request.getParameter("dni")+"");
+		i.setFirstname(request.getParameter("firstName")+"");
+		i.setLastname(request.getParameter("lastName")+"");
+		i.setEmail(request.getParameter("email")+"");
+		i.setPais(request.getParameter("country")+"");
+		i.setTelefono(request.getParameter("phoneNumber")+"");
+		i.setVivienda(request.getParameter("residencia")+"");
+		inquilinoService.saveInquilino(i);
+//		Map x=request.getParameterMap();
+//		Iterator c=x.keySet().iterator();
+//		while(c.hasNext()){
+//			Object key =c.next();
+//			  System.out.println("Clave: " + key + " -> Valor: " + x.get(key));
+//			}
+//		System.out.println("PRUEBA");
+//		System.out.println("-------------------------------------");
+//		for(String s:request.getParameterValues("selectReserva")) {
+//			System.out.println(s);
+//		}
+//		System.out.println(request.getParameter("dni"));
+//		System.out.println(request.getParameter("firstName"));
+//		System.out.println(request.getParameter("lastName"));
+//		System.out.println(request.getParameter("email"));
+//		System.out.println(request.getParameter("country"));
+//		System.out.println(request.getParameter("phoneNumber"));
+//		System.out.println("-------------------------------------");
+		return new ModelAndView("redirect:/nuevoInquilino");
+	}
+
 	@RequestMapping(value = { "/noticias" }, method = RequestMethod.GET)
 	public ModelAndView noticias() {
 		ModelAndView model = new ModelAndView();
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
-			User user = userService.findUserByEmail(auth.getName());
+			user = userService.findUserByEmail(auth.getName());
 			model.addObject("user", user.getCasas());
 			model.addObject("notificaciones", getNumNotificaciones());
 			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
 			model.addObject("header", "sidebarLog");
-			
+
 		} else {
 			// model.addObject("header", "sidebarLogOut");
 			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
 			return model;
 		}
-		model.addObject("noticias",getNoticias());
+		model.addObject("noticias", getNoticias());
+		model = añadirNavbarOptions(model, user);
 		model.setViewName("home/noticias");
 		return model;
 	}
+
 	@RequestMapping(value = { "/txt" }, method = RequestMethod.GET)
-	public @ResponseBody String txtResponse(){
-	    
-	    
-	    String data="";
-	    try {
-	        File myObj = new File("C:\\Users\\Juanjo\\Documents\\NetBeansProjects\\proyecto-final-grado-funcional\\src\\main\\resources\\templates\\noticias.txt");
-	        Scanner myReader = new Scanner(myObj);
-	        while (myReader.hasNextLine()) {
-	           data+= myReader.nextLine();
-	          
-	        }
-	        myReader.close();
-	      } catch (FileNotFoundException e) {
-	        System.out.println("An error occurred.");
-	        e.printStackTrace();
-	      }
-	    
-	    return data;
+	public @ResponseBody String txtResponse() {
+
+		String data = "";
+		try {
+			File myObj = new File(
+					"C:\\Users\\Juanjo\\Documents\\NetBeansProjects\\proyecto-final-grado-funcional\\src\\main\\resources\\templates\\noticias.txt");
+			Scanner myReader = new Scanner(myObj);
+			while (myReader.hasNextLine()) {
+				data += myReader.nextLine();
+
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+
+		return data;
 	}
-	private List<String> getNoticias()  {
-		List<String> list=new ArrayList<String>();
-		String data[];
-		
+
+	private List<HashMap<String, String>> getNoticias() {
+		String[] list;
+		List<HashMap<String, String>> data = new ArrayList<HashMap<String, String>>();
+		HashMap<String, String> obj = null;
+
+		String text = "";
 		URL url = null;
 		try {
 			url = new URL("http://localhost:8080/txt");
-		
-        BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
-        String i;
-        while ((i = read.readLine()) != null) {
-		        
-		       System.out.println(i);
-		       list.add(i);
-		      }
-        read.close();    
+
+			BufferedReader read = new BufferedReader(new InputStreamReader(url.openStream()));
+			String i;
+
+			while ((i = read.readLine()) != null) {
+				text += i;
+			}
+			read.close();
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -437,13 +550,29 @@ public class UserController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return list;
+		list = text.split("<br>");
+		for (int i = 0; i < list.length; i++) {
+			if (i % 2 == 0) {
+				obj = new HashMap<String, String>();
+				obj.put(list[i], list[i + 1]);
+				System.out.println(i + "--" + list.length);
+				data.add(obj);
+
+			}
+		}
+		for (HashMap<String, String> m : data) {
+			for (Map.Entry<String, String> entry : m.entrySet()) {
+				System.out.println(entry.getKey() + " = " + entry.getValue());
+			}
+		}
+		Collections.reverse(data);
+		return data;
 	}
 
 	@RequestMapping(value = { "/calendarioActualizar" }, method = RequestMethod.POST)
 	public ModelAndView calendarioPOST(WebRequest request) {
 		Casa c = casaService.findCasaByCodVivienda(request.getParameter("casa"));
-		System.out.println(c.toString());
+//		System.out.println(c.toString());
 		Alquiler a = new Alquiler();
 
 		a.setCasa(c);
@@ -452,7 +581,7 @@ public class UserController {
 		a.setPrecio(Float.parseFloat(request.getParameter("event-location")));
 
 		alquilerService.saveAlquiler(a);
-		System.out.println(a.toString());
+//		System.out.println(a.toString());
 
 		return new ModelAndView("redirect:/calendario");
 	}
@@ -474,8 +603,8 @@ public class UserController {
 
 	@RequestMapping(value = { "/añadirVivienda" }, method = RequestMethod.POST)
 	public ModelAndView añadirVivienda(WebRequest request) {
-		System.out.println(request.getParameter("nombre"));
-		System.out.println(request.getParameter("codigo"));
+		// System.out.println(request.getParameter("nombre"));
+		// System.out.println(request.getParameter("codigo"));
 		Casa x = casaService.findCasaByCodVivienda(request.getParameter("codigo"));
 		if (x == null) {
 			Casa c = new Casa();
@@ -483,9 +612,9 @@ public class UserController {
 			c.setNombre(request.getParameter("nombre"));
 			casaService.saveCasa(c);
 		} else {
-			System.out.println(x.toString());
+			// System.out.println(x.toString());
 			for (Casa cc : x.getUser().getCasas()) {
-				System.out.println(cc.toString());
+				// System.out.println(cc.toString());
 			}
 		}
 		return new ModelAndView("redirect:/home");

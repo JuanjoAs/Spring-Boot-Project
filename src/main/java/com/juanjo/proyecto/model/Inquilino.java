@@ -5,39 +5,96 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 /**
  * The persistent class for the inquilino database table.
  * 
  */
 @Entity
-@NamedQuery(name="Inquilino.findAll", query="SELECT i FROM Inquilino i")
+@NamedQuery(name = "Inquilino.findAll", query = "SELECT i FROM Inquilino i")
 public class Inquilino implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
 	private boolean active;
 
 	private String dni;
+	
+	private String email;
 
-	@Column(name="fecha_alta")
-	private Timestamp fechaAlta;
-
-	@Column(name="fecha_nac")
-	private Timestamp fechaNac;
+	private String pais;
+	
+	private String telefono;
+	
+	private String vivienda;
 
 	private String firstname;
 
 	private String lastname;
 
-	//bi-directional many-to-many association to Alquiler
-	@ManyToMany
+	// bi-directional many-to-many association to Alquiler
+	@OneToMany(mappedBy = "inquilino")
 	private List<Alquiler> alquilers;
 
 	public Inquilino() {
+	}
+
+	/**
+	 * @return the vivienda
+	 */
+	public String getVivienda() {
+		return vivienda;
+	}
+
+	/**
+	 * @param vivienda the vivienda to set
+	 */
+	public void setVivienda(String vivienda) {
+		this.vivienda = vivienda;
+	}
+
+	/**
+	 * @return the telefono
+	 */
+	public String getTelefono() {
+		return telefono;
+	}
+
+	/**
+	 * @param telefono the telefono to set
+	 */
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	/**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	/**
+	 * @return the pais
+	 */
+	public String getPais() {
+		return pais;
+	}
+
+	/**
+	 * @param pais the pais to set
+	 */
+	public void setPais(String pais) {
+		this.pais = pais;
 	}
 
 	public int getId() {
@@ -64,24 +121,12 @@ public class Inquilino implements Serializable {
 		this.dni = dni;
 	}
 
-	public Timestamp getFechaAlta() {
-		return this.fechaAlta;
-	}
-
-	public void setFechaAlta(Timestamp fechaAlta) {
-		this.fechaAlta = fechaAlta;
-	}
-
-	public Timestamp getFechaNac() {
-		return this.fechaNac;
-	}
-
-	public void setFechaNac(Timestamp fechaNac) {
-		this.fechaNac = fechaNac;
-	}
-
 	public String getFirstname() {
 		return this.firstname;
+	}
+
+	public String getNombre() {
+		return this.firstname + " " + this.lastname;
 	}
 
 	public void setFirstname(String firstname) {

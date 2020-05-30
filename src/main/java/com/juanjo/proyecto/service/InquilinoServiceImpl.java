@@ -6,11 +6,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.juanjo.proyecto.model.Inquilino;
 import com.juanjo.proyecto.model.Alquiler;
-import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.Role;
 import com.juanjo.proyecto.model.User;
-import com.juanjo.proyecto.repository.AlquilerRepository;
+import com.juanjo.proyecto.repository.InquilinoRepository;
 import com.juanjo.proyecto.repository.RoleRepository;
 import com.juanjo.proyecto.repository.UserRepository;
 import java.util.Arrays;
@@ -18,11 +18,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-@Service("alquilerService")
-public class AlquilerServiceImpl implements AlquilerService {
+@Service("inquilinoService")
+public class InquilinoServiceImpl implements InquilinoService {
 
 	@Autowired
-	private AlquilerRepository alquilerRepository;
+	private InquilinoRepository inquilinoRepository;
 	@Autowired
 	private UserService userService;
 
@@ -32,23 +32,23 @@ public class AlquilerServiceImpl implements AlquilerService {
 	
 
 	@Override
-	public void saveAlquiler(Alquiler alquiler) {
+	public void saveInquilino(Inquilino inquilino) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		alquilerRepository.save(alquiler);
+		inquilinoRepository.save(inquilino);
 	}
 
 	@Override
-	public List<Alquiler> findAlquilerByCasa(Casa casa) {
+	public List<Inquilino> findInquilinoByAlquilers(Alquiler alquiler) {
 		// TODO Auto-generated method stub
-		return alquilerRepository.findByCasa(casa);
+		return inquilinoRepository.findByAlquilers(alquiler);
 	}
-
-
 
 	@Override
-	public Alquiler findById(int id) {
-		return alquilerRepository.findById(id);
+	public Optional<Inquilino> findById(long id) {
+		return inquilinoRepository.findById(id);
 	}
+
+	
 
 
 }

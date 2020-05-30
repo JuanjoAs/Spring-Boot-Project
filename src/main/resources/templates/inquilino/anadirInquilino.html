@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=500, initial-scale=1" />
+<meta charset="UTF-8" />
+<title>Check-It - Registro de Inquilinos</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" th:href="@{styles/style.css}" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/33a002ef8f.js"
+	crossorigin="anonymous"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/css/bootstrap-select.min.css">
+
+
+</head>
+<body>
+	<!-- NavBar START -->
+	<div th:insert="fragments/navbar :: navbar" class="sticky-top"></div>
+	<!-- NavBar END -->
+	<th:block th:include="fragments/navbar :: modals"></th:block>
+	<!-- Bootstrap row -->
+	<div class="row" id="body-row">
+		<!-- Sidebar START -->
+		<div th:insert="fragments/navbar :: sidebar"></div>
+		<!-- Sidebar END -->
+		<!-- MAIN -->
+		<div class="col padding-especial">
+			<main class="container">
+				<div class="row">
+					<div class="col-12 align-middle">
+						<h2>Datos nuevo inquilino</h2>
+					</div>
+					<form class="form-horizontal" role="form" method="POST"
+						th:action="@{/guardarInquilino}">
+						<div class="row">
+							<div class="col-xl-6 col-sm-12">
+
+
+								<div class="form-group">
+									<label for="dni" class="col-sm-3 control-label">DNI/NIE</label>
+									<div class="col-sm-9">
+										<input type="text" id="dni" name="dni" placeholder="DNI/NIE"
+											class="form-control" autofocus>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="firstName" class="col-sm-3 control-label">Nombre</label>
+									<div class="col-sm-9">
+										<input type="text" id="firstName" name="firstName"
+											placeholder="Nombre" class="form-control" autofocus>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="lastName" class="col-sm-3 control-label">Apellidos</label>
+									<div class="col-sm-9">
+										<input type="text" id="lastName" name="lastName"
+											placeholder="Apellidos" class="form-control" autofocus>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="email" class="col-sm-3 control-label">Email
+									</label>
+									<div class="col-sm-9">
+										<input type="email" id="email" placeholder="Email"
+											class="form-control" name="email">
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-6 col-sm-12">
+								<div class="form-group">
+									<label for="country" class="col-sm-3 control-label">Pais</label>
+									<div class="col-sm-9">
+										<select id="country" name="country" class="selectpicker"
+											data-live-search="true">
+
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="phoneNumber" class="col-sm-3 control-label">Teléfono</label>
+									<div class="col-sm-9">
+										<input type="number" id="phoneNumber" name="phoneNumber"
+											placeholder="Teléfono" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="phoneNumber" class="col-sm-3 control-label">Residencia</label>
+									<div class="col-sm-9">
+										<input type="text" id="residencia" name="residencia"
+											placeholder="Residencia" class="form-control">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="Height" class="col-sm-3 control-label">Reserva
+									</label>
+									<div class="col-sm-9">
+										<select id="selectReserva" name="selectReserva"
+											class="selectpicker" multiple="multiple" data-live-search="true">
+
+										</select>
+										<button type="button" class="btn btn-danger"
+											onclick="resetReservas()">
+											<i class="fas fa-times"></i>
+										</button>
+									</div>
+								</div>
+
+
+							</div>
+							<!-- /.form-group -->
+
+							<button type="submit" class="btn btn-primary btn-block">Guardar
+								inquilino</button>
+					</form>
+				</div>
+				<!-- /form -->
+		</div>
+	</div>
+	</main>
+	</div>
+	<!-- Main Col END -->
+	</div>
+	<!-- body-row END -->
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(function() {
+			$('select').selectpicker();
+			
+		});
+
+		//var x=JSON.parse([[${#strings.replace(#strings.replace(listaReservas,'=',':"'),',','",')}]]);
+		
+		function resetReservas(){
+			console.log("borrado");
+			$("#selectReserva").val([]).selectpicker('deselectAll');
+			
+			
+		}
+		
+		var countryList = [ {
+			"AFG" : "Afghanistan",
+			"ALB" : "Albania",
+			"DZA" : "Algeria",
+			"ASM" : "American Samoa",
+			"AND" : "Andorra",
+			"AGO" : "Angola",
+			"AIA" : "Anguilla",
+			"ATA" : "Antarctica",
+			"ATG" : "Antigua and Barbuda",
+			"ARG" : "Argentina",
+			"ARM" : "Armenia",
+			"ABW" : "Aruba",
+			"AUS" : "Australia",
+			"AUT" : "Austria",
+			"AZE" : "Azerbaijan",
+			"BHS" : "Bahamas (the)",
+			"BHR" : "Bahrain",
+			"BGD" : "Bangladesh",
+			"BRB" : "Barbados",
+			"BLR" : "Belarus",
+			"BEL" : "Belgium",
+			"BLZ" : "Belize",
+			"BEN" : "Benin",
+			"BMU" : "Bermuda",
+			"BTN" : "Bhutan",
+			"BOL" : "Bolivia (Plurinational State of)",
+			"BES" : "Bonaire, Sint Eustatius and Saba",
+			"BIH" : "Bosnia and Herzegovina",
+			"BWA" : "Botswana",
+			"BVT" : "Bouvet Island",
+			"BRA" : "Brazil",
+			"IOT" : "British Indian Ocean Territory (the)",
+			"BRN" : "Brunei Darussalam",
+			"BGR" : "Bulgaria",
+			"BFA" : "Burkina Faso",
+			"BDI" : "Burundi",
+			"CPV" : "Cabo Verde",
+			"KHM" : "Cambodia",
+			"CMR" : "Cameroon",
+			"CAN" : "Canada",
+			"CYM" : "Cayman Islands (the)",
+			"CAF" : "Central African Republic (the)",
+			"TCD" : "Chad",
+			"CHL" : "Chile",
+			"CHN" : "China",
+			"CXR" : "Christmas Island",
+			"CCK" : "Cocos (Keeling) Islands (the)",
+			"COL" : "Colombia",
+			"COM" : "Comoros (the)",
+			"COD" : "Congo (the Democratic Republic of the)",
+			"COG" : "Congo (the)",
+			"COK" : "Cook Islands (the)",
+			"CRI" : "Costa Rica",
+			"HRV" : "Croatia",
+			"CUB" : "Cuba",
+			"CUW" : "Curaçao",
+			"CYP" : "Cyprus",
+			"CZE" : "Czechia",
+			"CIV" : "Côte d'Ivoire",
+			"DNK" : "Denmark",
+			"DJI" : "Djibouti",
+			"DMA" : "Dominica",
+			"DOM" : "Dominican Republic (the)",
+			"ECU" : "Ecuador",
+			"EGY" : "Egypt",
+			"SLV" : "El Salvador",
+			"GNQ" : "Equatorial Guinea",
+			"ERI" : "Eritrea",
+			"EST" : "Estonia",
+			"SWZ" : "Eswatini",
+			"ETH" : "Ethiopia",
+			"FLK" : "Falkland Islands (the) [Malvinas]",
+			"FRO" : "Faroe Islands (the)",
+			"FJI" : "Fiji",
+			"FIN" : "Finland",
+			"FRA" : "France",
+			"GUF" : "French Guiana",
+			"PYF" : "French Polynesia",
+			"ATF" : "French Southern Territories (the)",
+			"GAB" : "Gabon",
+			"GMB" : "Gambia (the)",
+			"GEO" : "Georgia",
+			"DEU" : "Germany",
+			"GHA" : "Ghana",
+			"GIB" : "Gibraltar",
+			"GRC" : "Greece",
+			"GRL" : "Greenland",
+			"GRD" : "Grenada",
+			"GLP" : "Guadeloupe",
+			"GUM" : "Guam",
+			"GTM" : "Guatemala",
+			"GGY" : "Guernsey",
+			"GIN" : "Guinea",
+			"GNB" : "Guinea-Bissau",
+			"GUY" : "Guyana",
+			"HTI" : "Haiti",
+			"HMD" : "Heard Island and McDonald Islands",
+			"VAT" : "Holy See (the)",
+			"HND" : "Honduras",
+			"HKG" : "Hong Kong",
+			"HUN" : "Hungary",
+			"ISL" : "Iceland",
+			"IND" : "India",
+			"IDN" : "Indonesia",
+			"IRN" : "Iran (Islamic Republic of)",
+			"IRQ" : "Iraq",
+			"IRL" : "Ireland",
+			"IMN" : "Isle of Man",
+			"ISR" : "Israel",
+			"ITA" : "Italy",
+			"JAM" : "Jamaica",
+			"JPN" : "Japan",
+			"JEY" : "Jersey",
+			"JOR" : "Jordan",
+			"KAZ" : "Kazakhstan",
+			"KEN" : "Kenya",
+			"KIR" : "Kiribati",
+			"PRK" : "Korea (the Democratic People's Republic of)",
+			"KOR" : "Korea (the Republic of)",
+			"KWT" : "Kuwait",
+			"KGZ" : "Kyrgyzstan",
+			"LAO" : "Lao People's Democratic Republic (the)",
+			"LVA" : "Latvia",
+			"LBN" : "Lebanon",
+			"LSO" : "Lesotho",
+			"LBR" : "Liberia",
+			"LBY" : "Libya",
+			"LIE" : "Liechtenstein",
+			"LTU" : "Lithuania",
+			"LUX" : "Luxembourg",
+			"MAC" : "Macao",
+			"MDG" : "Madagascar",
+			"MWI" : "Malawi",
+			"MYS" : "Malaysia",
+			"MDV" : "Maldives",
+			"MLI" : "Mali",
+			"MLT" : "Malta",
+			"MHL" : "Marshall Islands (the)",
+			"MTQ" : "Martinique",
+			"MRT" : "Mauritania",
+			"MUS" : "Mauritius",
+			"MYT" : "Mayotte",
+			"MEX" : "Mexico",
+			"FSM" : "Micronesia (Federated States of)",
+			"MDA" : "Moldova (the Republic of)",
+			"MCO" : "Monaco",
+			"MNG" : "Mongolia",
+			"MNE" : "Montenegro",
+			"MSR" : "Montserrat",
+			"MAR" : "Morocco",
+			"MOZ" : "Mozambique",
+			"MMR" : "Myanmar",
+			"NAM" : "Namibia",
+			"NRU" : "Nauru",
+			"NPL" : "Nepal",
+			"NLD" : "Netherlands (the)",
+			"NCL" : "New Caledonia",
+			"NZL" : "New Zealand",
+			"NIC" : "Nicaragua",
+			"NER" : "Niger (the)",
+			"NGA" : "Nigeria",
+			"NIU" : "Niue",
+			"NFK" : "Norfolk Island",
+			"MNP" : "Northern Mariana Islands (the)",
+			"NOR" : "Norway",
+			"OMN" : "Oman",
+			"PAK" : "Pakistan",
+			"PLW" : "Palau",
+			"PSE" : "Palestine, State of",
+			"PAN" : "Panama",
+			"PNG" : "Papua New Guinea",
+			"PRY" : "Paraguay",
+			"PER" : "Peru",
+			"PHL" : "Philippines (the)",
+			"PCN" : "Pitcairn",
+			"POL" : "Poland",
+			"PRT" : "Portugal",
+			"PRI" : "Puerto Rico",
+			"QAT" : "Qatar",
+			"MKD" : "Republic of North Macedonia",
+			"ROU" : "Romania",
+			"RUS" : "Russian Federation (the)",
+			"RWA" : "Rwanda",
+			"REU" : "Réunion",
+			"BLM" : "Saint Barthélemy",
+			"SHN" : "Saint Helena, Ascension and Tristan da Cunha",
+			"KNA" : "Saint Kitts and Nevis",
+			"LCA" : "Saint Lucia",
+			"MAF" : "Saint Martin (French part)",
+			"SPM" : "Saint Pierre and Miquelon",
+			"VCT" : "Saint Vincent and the Grenadines",
+			"WSM" : "Samoa",
+			"SMR" : "San Marino",
+			"STP" : "Sao Tome and Principe",
+			"SAU" : "Saudi Arabia",
+			"SEN" : "Senegal",
+			"SRB" : "Serbia",
+			"SYC" : "Seychelles",
+			"SLE" : "Sierra Leone",
+			"SGP" : "Singapore",
+			"SXM" : "Sint Maarten (Dutch part)",
+			"SVK" : "Slovakia",
+			"SVN" : "Slovenia",
+			"SLB" : "Solomon Islands",
+			"SOM" : "Somalia",
+			"ZAF" : "South Africa",
+			"SGS" : "South Georgia and the South Sandwich Islands",
+			"SSD" : "South Sudan",
+			"ESP" : "Spain",
+			"LKA" : "Sri Lanka",
+			"SDN" : "Sudan (the)",
+			"SUR" : "Suriname",
+			"SJM" : "Svalbard and Jan Mayen",
+			"SWE" : "Sweden",
+			"CHE" : "Switzerland",
+			"SYR" : "Syrian Arab Republic",
+			"TWN" : "Taiwan (Province of China)",
+			"TJK" : "Tajikistan",
+			"TZA" : "Tanzania, United Republic of",
+			"THA" : "Thailand",
+			"TLS" : "Timor-Leste",
+			"TGO" : "Togo",
+			"TKL" : "Tokelau",
+			"TON" : "Tonga",
+			"TTO" : "Trinidad and Tobago",
+			"TUN" : "Tunisia",
+			"TUR" : "Turkey",
+			"TKM" : "Turkmenistan",
+			"TCA" : "Turks and Caicos Islands (the)",
+			"TUV" : "Tuvalu",
+			"UGA" : "Uganda",
+			"UKR" : "Ukraine",
+			"ARE" : "United Arab Emirates (the)",
+			"GBR" : "United Kingdom of Great Britain and Northern Ireland (the)",
+			"UMI" : "United States Minor Outlying Islands (the)",
+			"USA" : "United States of America (the)",
+			"URY" : "Uruguay",
+			"UZB" : "Uzbekistan",
+			"VUT" : "Vanuatu",
+			"VEN" : "Venezuela (Bolivarian Republic of)",
+			"VNM" : "Viet Nam",
+			"VGB" : "Virgin Islands (British)",
+			"VIR" : "Virgin Islands (U.S.)",
+			"WLF" : "Wallis and Futuna",
+			"ESH" : "Western Sahara",
+			"YEM" : "Yemen",
+			"ZMB" : "Zambia",
+			"ZWE" : "Zimbabwe",
+			"ALA" : "Åland Islands"
+		} ];
+		var reservas=[[${listaReservas}]];
+		
+		console.log([[${listaReservas}]]);
+			  
+		function cargar_reservas() {
+			var text="";
+			
+			for (var r of reservas){
+					
+				text+='<optgroup label="'+r["casa"]+'" >';
+				console.log(Object.keys(r));
+				
+				for(obj of Object.keys(r)){
+					if(obj!=="casa"){
+						text+="<option data-tokens='"+r[obj]+"' value='"+obj+"'>"+r[obj] + "</option>"
+					}
+				}
+								
+			
+					
+				
+				
+				text+='</optgroup>';
+		}
+			
+			
+			
+			document.getElementById("selectReserva").innerHTML =text;
+			console.log(text);
+		}
+		
+		
+		function cargar_provincias() {
+
+			countryList
+					.forEach(function(item) {
+						Object
+								.keys(item)
+								.forEach(
+										function(key) {
+											
+
+											document.getElementById("country").innerHTML += "<option data-tokens='"+item[key]+" "+key+"' value='"+item[key]+"'>"
+													+ item[key] + "</option>";
+										});
+					});
+
+		}
+		cargar_reservas();
+		cargar_provincias();
+		/*]]>*/
+	</script>
+
+	<script th:src="@{js/canvasjs.min.js}"></script>
+	<!--  <div th:insert="fragments/footer :: footer"></div> -->
+	<script th:src="@{js/js.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/js/bootstrap-select.min.js"></script>
+
+	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/js/i18n/defaults-es_ES.min.js"></script>
+
+</body>
+</html>

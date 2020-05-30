@@ -13,6 +13,7 @@
 	href="https://unpkg.com/js-year-calendar@latest/dist/js-year-calendar.min.css" />
 <link rel="stylesheet" type="text/css" th:href="@{styles/style.css}" />
 <link rel="stylesheet" type="text/css" th:href="@{css/calendario.css}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -21,15 +22,16 @@
 </head>
 <body>
 	<!-- NavBar START -->
-	<div th:replace="fragments/navbar :: navbar"></div>
+	<div th:insert="fragments/navbar :: navbar" class="sticky-top"></div>
 	<!-- NavBar END -->
+	<th:block th:include="fragments/navbar :: modals"></th:block>
 	<!-- Bootstrap row -->
 	<div class="row" id="body-row">
 		<!-- Sidebar START -->
 		<div th:replace="fragments/navbar :: sidebar" style="background-color: red;"></div>
 		<!-- Sidebar END -->
 		<!-- MAIN -->
-		<div class="col p-4">
+		<div class="col padding-especial">
 			<main class="container-fluid">
 				<div class="row">
 				<div class="col">

@@ -1,5 +1,12 @@
-Version 0.1\r\nLanzamiento de la primera version estable de la web.
-
-Version 0.2\r\nLanzamiento de la segunda version estable de la web.
-
-Version 0.3\r\nLanzamiento de la tercera version estable de la web.
+Version 0.1<br>Lanzamiento de la primera version estable de la web.<br>
+Version 0.2<br>Lanzamiento de la segunda version estable de la web.<br>
+Version 0.3<br>Lanzamiento de la tercera version estable de la web.<br>
+Version 0.4<br>Lanzamiento de la primera version estable de la web.<br>
+Version 0.5<br>Lanzamiento de la segunda version estable de la web.<br>
+Version 0.6<br>Lanzamiento de la tercera version estable de la web.<br>
+Version 0.7<br>Lanzamiento de la primera version estable de la web.<br>
+Version 0.8<br>Lanzamiento de la segunda version estable de la web.<br>
+Version 0.9<br>Lanzamiento de la tercera version estable de la web.<br>
+Version 1.0<br>Lanzamiento de la primera version estable de la web.<br>
+Version 1.1<br>Lanzamiento de la segunda version estable de la web.<br>
+Version 1.2<br>Lanzamiento de la tercera version estable de la web.<br>

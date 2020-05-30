@@ -37,8 +37,8 @@ public class Alquiler implements Serializable {
 
 	//bi-directional many-to-many association to Inquilino
 	
-	@ManyToMany
-	private List<Inquilino> inquilinos;
+	@ManyToOne
+	private Inquilino inquilino;
 
 	//bi-directional one-to-one association to Documento
 	@OneToOne(mappedBy="alquiler")
@@ -96,12 +96,12 @@ public class Alquiler implements Serializable {
 		this.casa = casa;
 	}
 
-	public List<Inquilino> getInquilinos() {
-		return this.inquilinos;
+	public Inquilino getInquilino() {
+		return this.inquilino;
 	}
 
-	public void setInquilinos(List<Inquilino> inquilinos) {
-		this.inquilinos = inquilinos;
+	public void setInquilinos(Inquilino inquilino) {
+		this.inquilino = inquilino;
 	}
 
 	public Documento getDocumento() {
