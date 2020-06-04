@@ -37,13 +37,43 @@ public class Alquiler implements Serializable {
 
 	//bi-directional many-to-many association to Inquilino
 	
+	
+
 	@ManyToOne
 	private Inquilino inquilino;
 
-	//bi-directional one-to-one association to Documento
-	@OneToOne(mappedBy="alquiler")
-	private Documento documento;
+	
+	
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
 
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	/**
+	 * @return the inquilino
+	 */
+	public Inquilino getInquilino() {
+		return inquilino;
+	}
+	/**
+	 * @param inquilino the inquilino to set
+	 */
+	public void setInquilino(Inquilino inquilino) {
+		this.inquilino = inquilino;
+	}
+
+	@ManyToOne
+	@JoinColumn(name="id_user")
+	private User user;
+	
 	public Alquiler() {
 	}
 
@@ -96,21 +126,6 @@ public class Alquiler implements Serializable {
 		this.casa = casa;
 	}
 
-	public Inquilino getInquilino() {
-		return this.inquilino;
-	}
-
-	public void setInquilinos(Inquilino inquilino) {
-		this.inquilino = inquilino;
-	}
-
-	public Documento getDocumento() {
-		return this.documento;
-	}
-
-	public void setDocumento(Documento documento) {
-		this.documento = documento;
-	}
 
 	@Override
 	public String toString() {

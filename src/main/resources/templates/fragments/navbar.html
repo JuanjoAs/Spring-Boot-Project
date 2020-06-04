@@ -222,9 +222,16 @@
 							<div class="md-form">
 								<i class="fas fa-home prefix"></i> <label for="email">Seleccionar Inquilino</label>
 								
-  									<select th:field="*{inquilino}" class="selectpicker" data-live-search="true">
-  										<option selected="selected" value="---" >---</option>
-    									<option th:each="i:${inquilinos}" th:value="${i}" th:text="${i.getNombre()}" data-tokens="${i.getNombre()}" ></option>
+  									<select id="selectInquilinosNavbar" th:field="*{inquilino}"  class="selectpicker" data-live-search="true">
+  										<!--METER OPTION INQUILINO
+  										--------------------------
+  										--------------------------
+  										--------------------------
+  										--------------------------
+  										--------------------------
+  										--------------------------
+  										--------------------------
+  										---------------------- -->
 									</select>
 								
 								<div th:unless="${inquilinos!=null and !inquilinos.empty}">

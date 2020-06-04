@@ -42,6 +42,11 @@ public class AlquilerServiceImpl implements AlquilerService {
 		// TODO Auto-generated method stub
 		return alquilerRepository.findByCasa(casa);
 	}
+	@Override
+	public List<Alquiler> findAlquilerByUser(User user) {
+		// TODO Auto-generated method stub
+		return alquilerRepository.findByUser(user);
+	}
 
 
 

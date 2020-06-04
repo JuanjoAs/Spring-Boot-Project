@@ -3,7 +3,6 @@
 	<persistence-unit name="proyecto-final-grado-funcional">
 		<class>com.juanjo.proyecto.model.Alquiler</class>
 		<class>com.juanjo.proyecto.model.Casa</class>
-		<class>com.juanjo.proyecto.model.Documento</class>
 		<class>com.juanjo.proyecto.model.Inquilino</class>
 		<class>com.juanjo.proyecto.model.Role</class>
 		<class>com.juanjo.proyecto.model.Temporada</class>

@@ -31,102 +31,158 @@
 		<div th:insert="fragments/navbar :: sidebar"></div>
 		<!-- Sidebar END -->
 		<!-- MAIN -->
-		<div class="col padding-especial">
+		<div class="col padding-especial ">
 			<main class="container">
 				<div class="row">
-					<div class="col-12 align-middle">
-						<h2>Datos nuevo inquilino</h2>
-					</div>
-					<form class="form-horizontal" role="form" method="POST"
-						th:action="@{/guardarInquilino}">
-						<div class="row">
-							<div class="col-xl-6 col-sm-12">
+					<div class="col-md-8 col-sm-12">
+						<div class="col-12   text-center">
+							<h2>
+								<span th:if="${listaReservas != null}">Datos nuevo
+									inquilino</span> <span th:unless="${listaReservas != null}">Relacionar
+									nuevo inquilino</span>
+							</h2>
+							<hr>
+						</div>
+						<div class="col-12 ">
+							<form class="form-horizontal" role="form" method="POST"
+								th:action="@{/guardarInquilino}">
+								<div class="row justify-content-center">
+									<div class="col-xl-6 col-sm-12">
+										<div class="form-group">
+											<label for="dni" class="col-sm-3 control-label">DNI/NIE</label>
+											<div class="col-sm-12">
+												<input type="text" id="dni" name="dni" placeholder="DNI/NIE"
+													class="form-control" autofocus>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="firstName" class="col-sm-3 control-label">Nombre</label>
+											<div class="col-sm-12">
+												<input type="text" id="firstName" name="firstName"
+													placeholder="Nombre" class="form-control" autofocus>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="lastName" class="col-sm-3 control-label">Apellidos</label>
+											<div class="col-sm-12">
+												<input type="text" id="lastName" name="lastName"
+													placeholder="Apellidos" class="form-control" autofocus>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="email" class="col-sm-3 control-label">Email
+											</label>
+											<div class="col-sm-12">
+												<input type="email" id="email" placeholder="Email"
+													class="form-control" name="email">
+											</div>
+										</div>
+									</div>
+									<div class="col-xl-6 col-sm-12">
+										<div class="form-group">
+											<label for="country" class="col-sm-3 control-label">Pais</label>
+											<div class="col-sm-12">
+												<select id="country" name="country" class="selectpicker"
+													data-live-search="true">
 
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phoneNumber" class="col-sm-3 control-label">Teléfono</label>
+											<div class="col-sm-12">
+												<input type="number" id="phoneNumber" name="phoneNumber"
+													placeholder="Teléfono" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="phoneNumber" class="col-sm-3 control-label">Residencia</label>
+											<div class="col-sm-12">
+												<input type="text" id="residencia" name="residencia"
+													placeholder="Residencia" class="form-control">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="Height" class="col-sm-3 control-label">Reserva
+											</label>
 
-								<div class="form-group">
-									<label for="dni" class="col-sm-3 control-label">DNI/NIE</label>
-									<div class="col-sm-9">
-										<input type="text" id="dni" name="dni" placeholder="DNI/NIE"
-											class="form-control" autofocus>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="firstName" class="col-sm-3 control-label">Nombre</label>
-									<div class="col-sm-9">
-										<input type="text" id="firstName" name="firstName"
-											placeholder="Nombre" class="form-control" autofocus>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="lastName" class="col-sm-3 control-label">Apellidos</label>
-									<div class="col-sm-9">
-										<input type="text" id="lastName" name="lastName"
-											placeholder="Apellidos" class="form-control" autofocus>
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="email" class="col-sm-3 control-label">Email
-									</label>
-									<div class="col-sm-9">
-										<input type="email" id="email" placeholder="Email"
-											class="form-control" name="email">
-									</div>
-								</div>
-							</div>
-							<div class="col-xl-6 col-sm-12">
-								<div class="form-group">
-									<label for="country" class="col-sm-3 control-label">Pais</label>
-									<div class="col-sm-9">
-										<select id="country" name="country" class="selectpicker"
-											data-live-search="true">
+											<div th:if="${listaReservas != null}">
+												<div class="col-sm-12 d-flex">
+													<select id="selectReserva" name="selectReserva"
+														class="selectpicker" multiple="multiple"
+														data-live-search="true">
 
-										</select>
+													</select>
+													<button type="button" class="btn btn-danger"
+														onclick="resetReservas()">
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+											</div>
+											<!-- ELSE -->
+											<div th:unless="${listaReservas != null}">
+												<div class="col-sm-12 d-flex ">
+													<select id="selectReserva" name="selectReserva"
+														class="selectpicker" disabled>
+														<option th:value="${reservaEdit.getId()}" selected>Reserva (<span
+																th:text="${reservaEdit.getFechaEntrada()}"></span>-<span
+																th:text="${reservaEdit.getFechaSalida()}"></span>)
+														</option>
+													</select>
+													<button type="button" class="btn btn-danger"
+														onclick="resetReservas()">
+														<i class="fas fa-times"></i>
+													</button>
+												</div>
+											</div>
+										</div>
 									</div>
-								</div>
-								<div class="form-group">
-									<label for="phoneNumber" class="col-sm-3 control-label">Teléfono</label>
-									<div class="col-sm-9">
-										<input type="number" id="phoneNumber" name="phoneNumber"
-											placeholder="Teléfono" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="phoneNumber" class="col-sm-3 control-label">Residencia</label>
-									<div class="col-sm-9">
-										<input type="text" id="residencia" name="residencia"
-											placeholder="Residencia" class="form-control">
-									</div>
-								</div>
-								<div class="form-group">
-									<label for="Height" class="col-sm-3 control-label">Reserva
-									</label>
-									<div class="col-sm-9">
-										<select id="selectReserva" name="selectReserva"
-											class="selectpicker" multiple="multiple" data-live-search="true">
-
-										</select>
-										<button type="button" class="btn btn-danger"
-											onclick="resetReservas()">
-											<i class="fas fa-times"></i>
+									<!-- /.form-group -->
+									
+									<div class="col-12  text-center">
+									<hr>
+										<button type="submit" class="btn btn-primary ">
+											<span th:if="${listaReservas != null}">Guardar
+												inquilino</span> <span th:unless="${listaReservas != null}">Relacionar
+												inquilino con reserva</span>
 										</button>
 									</div>
 								</div>
-
-
+							</form>
+						</div>
+					</div>
+		<th:block th:unless="${listaReservas != null}">
+					<div class="col-md-4 col-sm-12">
+						<div class="row rounded-borders">
+							<div class="col-12 ">
+								<h2>Usar inquilino existente</h2>
 							</div>
-							<!-- /.form-group -->
-
-							<button type="submit" class="btn btn-primary btn-block">Guardar
-								inquilino</button>
-					</form>
+							<div class="col-12 ">
+								<form class="form-horizontal  " role="form" method="POST"
+									th:action="@{/relacionarInquilino}">
+									<input type="hidden" name="idReserva" th:value="${reservaEdit.getId()}">
+									<select id="selectInquilino" name="selectInquilino"
+										class="selectpicker" multiple="multiple"
+										data-live-search="true">
+									</select>
+									<button type="submit" class="btn btn-primary btn-block">
+										<span th:if="${listaReservas != null}">Guardar
+											inquilino</span> <span th:unless="${listaReservas != null}">Relacionar
+											inquilino con reserva</span>
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					</th:block>
 				</div>
 				<!-- /form -->
+
+			</main>
 		</div>
 	</div>
-	</main>
-	</div>
+
 	<!-- Main Col END -->
-	</div>
 	<!-- body-row END -->
 	<script th:inline="javascript">
 	/*<![CDATA[*/
@@ -396,34 +452,54 @@
 			"ALA" : "Åland Islands"
 		} ];
 		var reservas=[[${listaReservas}]];
+		var inquilino=[[${inquilinos}]];
 		
-		console.log([[${listaReservas}]]);
-			  
 		function cargar_reservas() {
-			var text="";
-			
-			for (var r of reservas){
-					
-				text+='<optgroup label="'+r["casa"]+'" >';
-				console.log(Object.keys(r));
+			console.log(reservas);
+			console.log("hola");
+			if(reservas!=null){
+
+				var text="";
 				
-				for(obj of Object.keys(r)){
-					if(obj!=="casa"){
-						text+="<option data-tokens='"+r[obj]+"' value='"+obj+"'>"+r[obj] + "</option>"
+				for (var r of reservas){
+						
+					text+='<optgroup label="'+r["casa"]+'" >';
+					console.log(Object.keys(r));
+					
+					for(obj of Object.keys(r)){
+						if(obj!=="casa"){
+							text+="<option data-tokens='"+r[obj]+"' value='"+obj+"'>"+r[obj] + "</option>"
+						}
 					}
-				}
-								
-			
+									
+				
+						
 					
+					
+					text+='</optgroup>';
+			}
 				
 				
-				text+='</optgroup>';
-		}
+				
+				document.getElementById("selectReserva").innerHTML =text;
+				console.log(text);
+			}
+			
+			else{
+				var text="";
+				
+				for (var r of inquilino){
+					console.log("<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>");
+					text+="<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>";
+				}
 			
 			
-			
-			document.getElementById("selectReserva").innerHTML =text;
-			console.log(text);
+				
+				
+				document.getElementById("selectInquilinosNavbar").innerHTML =text;
+				document.getElementById("selectInquilino").innerHTML =text;
+				console.log(text);
+			}
 		}
 		
 		
@@ -450,7 +526,7 @@
 
 	<script th:src="@{js/canvasjs.min.js}"></script>
 	<!--  <div th:insert="fragments/footer :: footer"></div> -->
-	<script th:src="@{js/js.js}"></script>
+	<script type="text/javascript" th:src="@{js/js.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>

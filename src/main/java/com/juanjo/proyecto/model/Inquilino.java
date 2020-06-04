@@ -12,6 +12,8 @@ import java.util.List;
 @Entity
 @NamedQuery(name = "Inquilino.findAll", query = "SELECT i FROM Inquilino i")
 public class Inquilino implements Serializable {
+	
+
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -33,10 +35,29 @@ public class Inquilino implements Serializable {
 	private String firstname;
 
 	private String lastname;
+	@ManyToOne
+	@JoinColumn(name="id_user")
+	private User user;
+
 
 	// bi-directional many-to-many association to Alquiler
 	@OneToMany(mappedBy = "inquilino")
 	private List<Alquiler> alquilers;
+
+	
+	public void setDatos(Inquilino i) {
+		this.id = i.getId();
+		this.active = i.getActive();
+		this.dni = i.getDni();
+		this.email = i.getEmail();
+		this.pais = i.getPais();
+		this.telefono = i.getTelefono();
+		this.vivienda = i.getVivienda();
+		this.firstname = i.getFirstname();
+		this.lastname = i.getLastname();
+		this.user = i.getUser();
+		this.alquilers = i.getAlquilers();
+	}
 
 	public Inquilino() {
 	}
@@ -74,6 +95,20 @@ public class Inquilino implements Serializable {
 	 */
 	public String getEmail() {
 		return email;
+	}
+	
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	/**
@@ -146,6 +181,9 @@ public class Inquilino implements Serializable {
 	}
 
 	public void setAlquilers(List<Alquiler> alquilers) {
+		for(Alquiler a:alquilers) {
+			a.setInquilino(this);
+		}
 		this.alquilers = alquilers;
 	}
 

@@ -16,6 +16,7 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -53,7 +54,6 @@ import com.juanjo.proyecto.model.Inquilino;
 import com.juanjo.proyecto.model.Notificacion;
 import com.juanjo.proyecto.model.User;
 import com.juanjo.proyecto.service.AlquilerService;
-import com.juanjo.proyecto.service.CanvasService;
 import com.juanjo.proyecto.service.CasaService;
 import com.juanjo.proyecto.service.InquilinoService;
 import com.juanjo.proyecto.service.UserService;
@@ -71,16 +71,7 @@ public class UserController {
 	private AlquilerService alquilerService;
 	@Autowired
 	private InquilinoService inquilinoService;
-	@Autowired
-	private CanvasService canvasjsChartService;
 
-	@RequestMapping(value = { "/prueba" }, method = RequestMethod.GET)
-	public String springMVC(ModelMap modelMap) {
-		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
-		modelMap.addAttribute("dataPointsList", canvasjsDataList);
-
-		return "graphs/homePrice";
-	}
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public ModelAndView home(ModelMap modelMap) {
@@ -102,8 +93,6 @@ public class UserController {
 			return model;
 		}
 
-		List<List<Map<Object, Object>>> canvasjsDataList = canvasjsChartService.getCanvasjsChartData();
-		modelMap.addAttribute("dataPointsList", canvasjsDataList);
 		User user = userService.findUserByEmail(auth.getName());
 		List<Alquiler> listaAlquiler = new ArrayList<Alquiler>();
 
@@ -121,7 +110,36 @@ public class UserController {
 		SimpleDateFormat curFormater = new SimpleDateFormat("MM/dd/yyyy");
 		Date dateObj = new Date();
 		GregorianCalendar calendar = new GregorianCalendar();
+		List<float[]> tabla2DatosUmparsed = new ArrayList<float[]>();
+		for (Alquiler alquiler : listaAlquiler) {
+			try {
+				dateObj = curFormater.parse(alquiler.getFechaEntrada());
+				calendar.setTimeInMillis(dateObj.getTime());
+				int año = calendar.get(Calendar.YEAR);
+				int mes = calendar.get(Calendar.MONTH);
+				float[] f = new float[2];
+				if (año == 2020) {
+					f[0] = calendar.get(Calendar.MONTH);
+					f[1] = alquiler.getPrecio();
+					tabla2DatosUmparsed.add(f);
 
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		List<Map<String, Object>> tabla2 = new ArrayList<Map<String, Object>>();
+		Map obj = null;
+		Collections.sort(tabla2DatosUmparsed, new SortByMonth());
+		for (float array[] : tabla2DatosUmparsed) {
+			System.out.println(array[0] + " - " + array[1]);
+			obj = new HashMap<String, Object>();
+			obj.put("x", array[0]);
+			obj.put("y", array[1]);
+			tabla2.add(obj);
+		}
 		for (Alquiler alquiler : listaAlquiler) {
 			// System.out.println("//////////////////////////////////////////////////");
 			// System.out.println(alquiler.getFechaEntrada());
@@ -203,6 +221,7 @@ public class UserController {
 
 					break;
 				}
+
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -213,6 +232,8 @@ public class UserController {
 		model.addObject("ver", ver);
 		model.addObject("oto", oto);
 		model.addObject("inv", inv);
+		model.addObject("ano", "2020");
+		model.addObject("anoDinero", tabla2);
 		model.setViewName("graphs/homePrice");
 		model = añadirNavbarOptions(model, user);
 		return model;
@@ -220,17 +241,19 @@ public class UserController {
 
 	private ModelAndView añadirNavbarOptions(ModelAndView model, User user) {
 		model.addObject("viviendas", user.getCasas());
-		List<Inquilino> inqu = new ArrayList<Inquilino>();
-		for (Casa casa : user.getCasas()) {
-			for (Alquiler a : casa.getAlquilers()) {
-				if (a.getInquilino() != null) {
-					inqu.add(a.getInquilino());
-				}
-			}
+		List<Map<String, Object>> inqu = new ArrayList<Map<String, Object>>();
+		HashMap<String, Object> obj = null;
+		for (Inquilino inquilino : user.getInquilino()) {
+			obj = new HashMap<String, Object>();
+			System.out.println(inquilino.getFirstname() + " " + inquilino.getLastname() + " " + inquilino.getDni());
+			// inqu.add(inquilino); error infinito por la cara
+			obj.put("dni", inquilino.getDni());
+			obj.put("nombre", inquilino.getFirstname());
+			obj.put("apellido", inquilino.getLastname());
+			obj.put("id", inquilino.getId());
+			inqu.add(obj);
 		}
-		for (Inquilino i : inqu) {
-			System.out.println("hay un inquilino" + i);
-		}
+
 		model.addObject("inquilinos", inqu);
 		model.addObject("reserva", new Alquiler());
 		// model.addObject("inqui",new Inquilino());
@@ -330,7 +353,7 @@ public class UserController {
 					if (a.getInquilino() == null) {
 						notificaciones.add(new Notificacion("fas fa-user-cog fa-3x",
 								"No has registrado ningún inquilino para esta reserva. (COD:" + a.getId() + ")",
-								"/gestionar/" + a.getId()));
+								"" + a.getId()));
 					}
 					x++;
 				}
@@ -414,26 +437,71 @@ public class UserController {
 			return model;
 		}
 		int x = 0;
-		List<HashMap<String, Object>> list=new ArrayList<HashMap<String, Object>>();
-		HashMap<String, Object>map=null;
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> map = null;
 		for (Casa c : user.getCasas()) {
-			x=0;
-			map=new HashMap<String, Object>();
+			x = 0;
+			map = new HashMap<String, Object>();
 			for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
 				if (a.getInquilino() == null) {
-					if(x==0) {
-						map.put(new String("casa"), new String(c.getNombre()+""));
+					if (x == 0) {
+						map.put(new String("casa"), new String(c.getNombre() + ""));
 						x++;
 					}
-					map.put(a.getId()+"", "Reserva ("+a.getFechaEntrada()+"-"+a.getFechaSalida()+")");
+					map.put(a.getId() + "", "Reserva (" + a.getFechaEntrada() + "-" + a.getFechaSalida() + ")");
 				}
 			}
-			if(!map.isEmpty()) {
+			if (!map.isEmpty()) {
 				list.add(map);
-				map=null;
+				map = null;
 			}
 		}
-		model.addObject("listaReservas",list);
+		model.addObject("listaReservas", list);
+		model = añadirNavbarOptions(model, user);
+		model.setViewName("inquilino/anadirInquilino");
+		return model;
+	}
+
+	@RequestMapping(value = { "/nuevoInquilino" }, method = RequestMethod.POST)
+	public ModelAndView crearInquilino(WebRequest request) {
+		ModelAndView model = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = null;
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			user = userService.findUserByEmail(auth.getName());
+			model.addObject("user", user.getCasas());
+			model.addObject("notificaciones", getNumNotificaciones());
+			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
+			model.addObject("header", "sidebarLog");
+
+		} else {
+			// model.addObject("header", "sidebarLogOut");
+
+			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
+			return model;
+		}
+		int x = 0;
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> map = null;
+		for (Casa c : user.getCasas()) {
+			x = 0;
+			map = new HashMap<String, Object>();
+			for (Alquiler a : alquilerService.findAlquilerByCasa(c)) {
+				if (a.getInquilino() == null) {
+					if (x == 0) {
+						map.put(new String("casa"), new String(c.getNombre() + ""));
+						x++;
+					}
+					map.put(a.getId() + "", "Reserva (" + a.getFechaEntrada() + "-" + a.getFechaSalida() + ")");
+				}
+			}
+			if (!map.isEmpty()) {
+				list.add(map);
+				map = null;
+			}
+		}
+		System.out.println("hola" + request.getParameter("reservaEdit"));
+		model.addObject("reservaEdit", alquilerService.findById(Integer.parseInt(request.getParameter("reservaEdit"))));
 		model = añadirNavbarOptions(model, user);
 		model.setViewName("inquilino/anadirInquilino");
 		return model;
@@ -443,43 +511,39 @@ public class UserController {
 	public ModelAndView guardarInquilino(WebRequest request) {
 		Inquilino i = new Inquilino();
 		List<Alquiler> aa = new ArrayList<Alquiler>();
-		if(request.getParameter("selectReserva")!=null) {
-			for(String s:request.getParameterValues("selectReserva")) {
-					System.out.println("Prueba :"+s);
-				
+		if (request.getParameter("selectReserva") != null) {
+			for (String s : request.getParameterValues("selectReserva")) {
+				System.out.println("Prueba :" + s);
+
 				aa.add(alquilerService.findById(Integer.parseInt(s)));
-			
+
 			}
 			i.setAlquilers(aa);
 		}
-		
-		i.setDni(request.getParameter("dni")+"");
-		i.setFirstname(request.getParameter("firstName")+"");
-		i.setLastname(request.getParameter("lastName")+"");
-		i.setEmail(request.getParameter("email")+"");
-		i.setPais(request.getParameter("country")+"");
-		i.setTelefono(request.getParameter("phoneNumber")+"");
-		i.setVivienda(request.getParameter("residencia")+"");
+
+		i.setDni(request.getParameter("dni") + "");
+		i.setFirstname(request.getParameter("firstName") + "");
+		i.setLastname(request.getParameter("lastName") + "");
+		i.setEmail(request.getParameter("email") + "");
+		i.setPais(request.getParameter("country") + "");
+		i.setTelefono(request.getParameter("phoneNumber") + "");
+		i.setVivienda(request.getParameter("residencia") + "");
 		inquilinoService.saveInquilino(i);
-//		Map x=request.getParameterMap();
-//		Iterator c=x.keySet().iterator();
-//		while(c.hasNext()){
-//			Object key =c.next();
-//			  System.out.println("Clave: " + key + " -> Valor: " + x.get(key));
-//			}
-//		System.out.println("PRUEBA");
-//		System.out.println("-------------------------------------");
-//		for(String s:request.getParameterValues("selectReserva")) {
-//			System.out.println(s);
-//		}
-//		System.out.println(request.getParameter("dni"));
-//		System.out.println(request.getParameter("firstName"));
-//		System.out.println(request.getParameter("lastName"));
-//		System.out.println(request.getParameter("email"));
-//		System.out.println(request.getParameter("country"));
-//		System.out.println(request.getParameter("phoneNumber"));
-//		System.out.println("-------------------------------------");
+
 		return new ModelAndView("redirect:/nuevoInquilino");
+	}
+
+	@RequestMapping(value = { "/relacionarInquilino" }, method = RequestMethod.POST)
+	public ModelAndView relacionarInquilino(WebRequest request) {
+		if (request.getParameter("selectInquilino") != null) {
+			Inquilino i = new Inquilino();
+			i=inquilinoService.findById(Integer.parseInt(request.getParameter("selectInquilino")));
+			List<Alquiler> aa = new ArrayList<Alquiler>();
+			aa.add(alquilerService.findById(Integer.parseInt(request.getParameter("idReserva"))));	
+			i.setAlquilers(aa);
+			inquilinoService.saveInquilino(i);
+		}
+		return new ModelAndView("redirect:/home");
 	}
 
 	@RequestMapping(value = { "/noticias" }, method = RequestMethod.GET)
@@ -645,5 +709,11 @@ public class UserController {
 		ModelAndView model = new ModelAndView();
 		model.setViewName("errors/access_denied");
 		return model;
+	}
+}
+
+class SortByMonth implements Comparator<float[]> {
+	public int compare(float[] a, float[] b) {
+		return (int) (b[0] - a[0]);
 	}
 }

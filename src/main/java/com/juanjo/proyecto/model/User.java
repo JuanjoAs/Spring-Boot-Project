@@ -33,6 +33,11 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Casa> casas;
 	
+
+
+	@OneToMany(mappedBy="user")
+	private List<Inquilino> inquilino;
+	
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -48,7 +53,19 @@ public class User implements Serializable {
 	}
 	
 	
-	
+	/**
+	 * @return the inquilino
+	 */
+	public List<Inquilino> getInquilino() {
+		return inquilino;
+	}
+
+	/**
+	 * @param inquilino the inquilino to set
+	 */
+	public void setInquilino(List<Inquilino> inquilino) {
+		this.inquilino = inquilino;
+	}
 
 	public User() {
 	}

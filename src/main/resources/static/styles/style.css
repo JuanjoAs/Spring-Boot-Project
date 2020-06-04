@@ -4,7 +4,49 @@
 .bdyColor{
 	background-color: #f7f5f2 !important;
 }
+hr{
+	overflow: visible;
+    border-width: 1px 0 0 0;
+}
+.rounded-borders{
+	border: 2px solid;
+	border-radius: 15px 50px 30px 5px;
+	padding: 20px;
+  width: 115%;
+}
+body{
+	background-image: url(https://www.copiadorassubbetica.com/images/bg-patron.png);
+}
 
+.grafica{
+	height: 370px; 
+	width: 100%;
+	
+}
+@media (max-width: 767.98px)  { 
+.padding-especial{
+	padding-left:0px !important;
+	padding-top:40px;
+} 
+}
+
+
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+.padding-especial{
+	padding-left:225px !important;
+	padding-top:40px;
+} 
+ }
+
+@media (min-width: 992px)  {
+
+.padding-especial{
+	padding-left:225px !important;
+	padding-top:40px;
+} 
+	
+}
 
 /* SIDEBAR */
 .padding-especial{

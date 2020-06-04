@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.juanjo.proyecto.model.Inquilino;
 import com.juanjo.proyecto.model.Alquiler;
+import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.Role;
 import com.juanjo.proyecto.model.User;
 import com.juanjo.proyecto.repository.InquilinoRepository;
@@ -34,6 +35,7 @@ public class InquilinoServiceImpl implements InquilinoService {
 	@Override
 	public void saveInquilino(Inquilino inquilino) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		inquilino.setUser(userService.findUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
 		inquilinoRepository.save(inquilino);
 	}
 
@@ -43,8 +45,16 @@ public class InquilinoServiceImpl implements InquilinoService {
 		return inquilinoRepository.findByAlquilers(alquiler);
 	}
 
+	
+
+
 	@Override
-	public Optional<Inquilino> findById(long id) {
+	public List<Inquilino> findInquilinoByUser(User user) {
+		return inquilinoRepository.findByUser(user);
+	}
+
+	@Override
+	public Inquilino findById(int id) {
 		return inquilinoRepository.findById(id);
 	}
 

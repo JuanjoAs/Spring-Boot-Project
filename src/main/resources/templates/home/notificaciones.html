@@ -26,7 +26,7 @@
 		<div th:insert="fragments/navbar :: sidebar"></div>
 		<!-- Sidebar END -->
 		<!-- MAIN -->
-		<div class="col p-4">
+		<div class="col padding-especial">
 			<main class="container">
 				<div class="row">
 					<div class="col-xl-12 col-sm-12">
@@ -38,7 +38,7 @@
 								<script> console.log('[[${notificacion}]]')</script>
 									<td th:class ="${notificacion.getImagen()}"></td>
 									<td th:text="${notificacion.getMensaje()}"></td>
-									<td ><a th:href="${notificacion.getRuta()}">Gestionar ahora</a></td>
+									<td ><form method="POST" th:action="@{/nuevoInquilino}"><input type="hidden" th:value="${notificacion.getRuta()}" name="reservaEdit"><input class="btn btn-primary" type="submit" name="submit" value="Gestionar ahora"></form></td>
 								</tr>
 							</table>
 						</div>

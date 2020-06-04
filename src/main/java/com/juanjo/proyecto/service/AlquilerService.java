@@ -11,5 +11,6 @@ public interface AlquilerService {
  public void saveAlquiler(Alquiler Alquiler);
 
 List<Alquiler> findAlquilerByCasa(Casa casa);
+List<Alquiler> findAlquilerByUser(User user);
 Alquiler findById(int id);
 }

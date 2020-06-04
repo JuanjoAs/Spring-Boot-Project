@@ -10,4 +10,5 @@ import com.juanjo.proyecto.model.User;
 public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
  List<Alquiler> findByCasa(Casa casa);
  Alquiler findById(int id);
+ List<Alquiler> findByUser(User user);
 }
