@@ -183,6 +183,7 @@ public class Inquilino implements Serializable {
 	public void setAlquilers(List<Alquiler> alquilers) {
 		for(Alquiler a:alquilers) {
 			a.setInquilino(this);
+			System.out.println("nombre del inquilino en la reserva("+a.getId()+"): "+a.getInquilino().getNombre());
 		}
 		this.alquilers = alquilers;
 	}

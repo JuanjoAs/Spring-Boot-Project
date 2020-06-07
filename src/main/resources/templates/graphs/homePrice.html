@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=500, initial-scale=1" />
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
 <meta charset="UTF-8" />
 <title>Home</title>
 <link rel="stylesheet"
@@ -71,6 +72,7 @@ window.onload = function () {
 	
 	
 	document.getElementById("selectInquilinosNavbar").innerHTML =text;
+	$('#selectInquilinosNavbar').selectpicker('refresh');
 	console.log(text);
 	 
 	 var pri=[];
@@ -215,13 +217,13 @@ function toolTipContentTabla2(e) {
 			<main class="container-fluid padding-especial">
 				<div class="row">
 					<div class="col-xl-6 col-sm-12">
-						<div id="chartContainer" class="grafica" ></div>
+						<div id="chartContainer" class="grafica"></div>
 					</div>
 					<div class="col-xl-6 col-sm-12">
-						<div id="chartContainer2" class="grafica" >
-						</div>
+						<div id="chartContainer2" class="grafica"></div>
 					</div>
-					</div>
+				</div>
+				
 			</main>
 		</div>
 		<!-- Main Col END -->
@@ -229,10 +231,10 @@ function toolTipContentTabla2(e) {
 	<!-- body-row END -->
 
 
-
+	
 	<script th:src="@{js/canvasjs.min.js}"></script>
 	<!--  <div th:insert="fragments/footer :: footer"></div> -->
-	<script th:src="@{js/js.js}"></script>
+	<script type="text/javascript" th:src="@{js/js.js}"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
 		crossorigin="anonymous"></script>
@@ -255,6 +257,5 @@ function toolTipContentTabla2(e) {
 	<!-- (Optional) Latest compiled and minified JavaScript translation files -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.17/dist/js/i18n/defaults-es_ES.min.js"></script>
-
 </body>
 </html>

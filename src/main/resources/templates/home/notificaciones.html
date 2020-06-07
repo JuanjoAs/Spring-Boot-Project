@@ -42,6 +42,10 @@
 								</tr>
 							</table>
 						</div>
+						<div th:if="${#lists.isEmpty(notificacionesList)}">
+							<h2 class="mb-4 text-primary">NOTIFICACIONES</h2>
+							<h3>No tienes ninguna notificacion</h3>
+						</div>
 					</div>
 				</div>
 			</main>

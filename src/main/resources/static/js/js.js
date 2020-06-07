@@ -46,26 +46,82 @@ function anadirInquilino () {
 	    x.style.display = "none";
 	  }
 }
+function toggleSidebar() {
+	  
+	  $("#sidebar-container").toggleClass( "d-none d-md-block" )
+	  
+}
+
+
+function overlay(isShow){
+	  var elm = document.getElementById('sidebar-container')
+	  if (isShow) {
+	    elm.style.display = 'fixed';
+	  } else {
+	    elm.style.display = 'none';
+	  }
+	}
+
+	function openNav() {
+	  overlay(true);
+	  $("#sidebar-container").removeClass( "d-none d-md-block" )
+	}
+
+	function closeNav() {
+	  overlay(false);
+	  $("#sidebar-container").removeClass( "d-none d-md-block" )
+}
+	
 $(function() {
 	
-	$(".btn.dropdown-toggle.btn-light").css("border", "1px solid #ced4da");
-	$(".btn.dropdown-toggle.btn-light").css("background-color", "#fff");
-	$(".dropdown.bootstrap-select").css("width", "100%");
+	$(".selectpicker").selectpicker("setStyle", "default-style", "add");
 	
-//	/*<![CDATA[*/
-//	var inquilino=[[${inquilinos}]];
-//	var text="";
-//	
-//	for (var r of inquilino){
-//		console.log("<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>");
-//		text+="<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>";
-//	}
-//
-//
-//	
-//	
-//	
-//	document.getElementById("selectInquilinosNavbar").innerHTML =text;
-//	console.log(text);
-//	/*]]>*/
+	document.addEventListener('touchstart', handleTouchStart, false);        
+	document.addEventListener('touchmove', handleTouchMove, false);
+
+	var xDown = null;                                                        
+	var yDown = null;
+
+	function getTouches(evt) {
+	  return evt.touches ||             // browser API
+	         evt.originalEvent.touches; // jQuery
+	}                                                     
+
+	function handleTouchStart(evt) {
+	    const firstTouch = getTouches(evt)[0];                                      
+	    xDown = firstTouch.clientX;                                      
+	    yDown = firstTouch.clientY;                                      
+	};                                                
+
+	function handleTouchMove(evt) {
+	    if ( ! xDown || ! yDown ) {
+	        return;
+	    }
+
+	    var xUp = evt.touches[0].clientX;                                    
+	    var yUp = evt.touches[0].clientY;
+
+	    var xDiff = xDown - xUp;
+	    var yDiff = yDown - yUp;
+
+	    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+	        if ( xDiff > 10 ) {
+	        	$("#sidebar-container").addClass( "d-none d-md-block" );
+	        	console.log("se cierra:"+xDiff);
+	        } else if(xDiff<-7){
+	        	$("#sidebar-container").removeClass("d-none d-md-block");
+	        	console.log("se abre:"+xDiff );
+	        }
+	    } else {
+	        if ( yDiff > 0 ) {
+	            /* up swipe */ 
+	        } else { 
+	            /* down swipe */
+	        }                                                                 
+	    }
+	    /* reset values */
+	    xDown = null;
+	    yDown = null;                                             
+	};
+	
 });

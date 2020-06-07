@@ -33,10 +33,10 @@ public class InquilinoServiceImpl implements InquilinoService {
 	
 
 	@Override
-	public void saveInquilino(Inquilino inquilino) {
+	public Inquilino saveInquilino(Inquilino inquilino) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		inquilino.setUser(userService.findUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
-		inquilinoRepository.save(inquilino);
+		return inquilinoRepository.save(inquilino);
 	}
 
 	@Override

@@ -8,16 +8,24 @@ hr{
 	overflow: visible;
     border-width: 1px 0 0 0;
 }
+.default-style{
+	border: 1px solid #ced4da;
+	background-color: #fff;
+}
 .rounded-borders{
 	border: 2px solid;
-	border-radius: 15px 50px 30px 5px;
+	border-radius: 30px 5px 30px 5px;
 	padding: 20px;
-  width: 115%;
+  	width: 115%;
 }
 body{
 	background-image: url(https://www.copiadorassubbetica.com/images/bg-patron.png);
 }
+.efecto-sidebar{
 
+		overflow-x: hidden;
+		transition: 0.5s;
+}
 .grafica{
 	height: 370px; 
 	width: 100%;

@@ -9,7 +9,7 @@ import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.User;
 
 public interface InquilinoService {
- public void saveInquilino(Inquilino Inquilino);
+ public Inquilino saveInquilino(Inquilino Inquilino);
 
 List<Inquilino> findInquilinoByAlquilers(Alquiler alquiler);
 Inquilino findById(int id);
