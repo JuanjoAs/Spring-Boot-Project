@@ -49,6 +49,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.juanjo.proyecto.handler.ConsoleLogger;
+import com.juanjo.proyecto.handler.ViviendaFirstHandler;
 import com.juanjo.proyecto.model.Alquiler;
 import com.juanjo.proyecto.model.Casa;
 import com.juanjo.proyecto.model.Inquilino;
@@ -58,10 +60,13 @@ import com.juanjo.proyecto.service.AlquilerService;
 import com.juanjo.proyecto.service.CasaService;
 import com.juanjo.proyecto.service.InquilinoService;
 import com.juanjo.proyecto.service.UserService;
+import com.kastkode.springsandwich.filter.annotation.Before;
+import com.kastkode.springsandwich.filter.annotation.BeforeElement;
 
 import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
 
 @Controller
+@Before( @BeforeElement(ConsoleLogger.class)) 
 public class UserController {
 
 	@Autowired
@@ -73,7 +78,7 @@ public class UserController {
 	@Autowired
 	private InquilinoService inquilinoService;
 
-
+	@Before( @BeforeElement(ViviendaFirstHandler.class)) 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public ModelAndView home(ModelMap modelMap) {
 		ModelAndView model = new ModelAndView();
