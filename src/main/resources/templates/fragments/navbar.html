@@ -58,10 +58,7 @@
 					class="list-group-item list-group-item-action bg-dark text-white">
 					<span class="menu-collapsed">Gestionar inquilinos</span>
 				</a>
-				<a th:href="@{/logout}"
-					class="list-group-item list-group-item-action bg-dark text-white">
-					<span class="menu-collapsed">Cerrar Sesión</span>
-				</a>
+				
 			</div>
 			<a href="#submenu2" data-toggle="collapse" aria-expanded="false"
 				class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
@@ -119,17 +116,19 @@
 			<li
 				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"><small>SOPORTE</small></li>
 			<!-- /END Separator -->
-			<a href="#" class="bg-dark list-group-item list-group-item-action">
+			<a th:action="@{/soporte}" class="bg-dark list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-start align-items-center">
 					<span class="fa fa-question fa-fw mr-3"></span> <span
-						class="menu-collapsed">Ayuda</span>
+						class="menu-collapsed">Soporte</span>
 				</div>
 			</a>
 
 		</ul>
-		<a th:href="@{/logout}" class="list-group-item list-group-item-action bg-dark text-white d-md-none ">
+
+		<a th:href="@{/logout}" class="list-group-item list-group-item-action bg-dark text-white d-xs-block d-sm-block d-md-none d-lg-none">
 					<span class="menu-collapsed">Cerrar Sesión</span>
 				</a>
+		
 		<div class="sb-sidenav-footer text-white">
 			<div class="small">Sesión iniciada como:</div>
 			<span th:utext="${userName}"></span>
@@ -249,35 +248,22 @@
 							</div>
 							<div class="md-form mt-1">
 								<i class="fas fa-child prefix"></i> <label for="selectInquilinosNavbar">Seleccionar
-									Inquilino</label> <select id="selectInquilinosNavbar" name="selectInquilinosNavbar"
-									 class="selectpicker form-control"
-									data-live-search="true">
+									Inquilino</label> 
+									
+									
+										<select id="selectInquilinosNavbar" name="selectInquilinosNavbar"
+									 	class="selectpicker form-control"
+										data-live-search="true">
+									
+									
+									
 								</select>
 
 								<div th:unless="${inquilinos!=null and !inquilinos.empty}">
-									<a th:ref="@{/nuevoInquilino}"><button type="button" id="botonAnadirInquilino"
+									<a th:href="@{/nuevoInquilino}" type="button" id="botonAnadirInquilino"
 										class="list-group-item list-group-item-action bg-dark text-white">
-										<span class="menu-collapsed">Crear nuevo inquilino</span>
-									</button></a>
-									<div id="anadirInquilinoExtra">
-										<div class="md-form">
-											<i class="fas fa-home prefix"></i> <label for="email">Nombre</label>
-											<select>
-												<option th:each="vivienda : ${viviendas}"
-													th:text="${vivienda.nombre}"
-													selected></option>
-											</select>
-										</div>
-										<div class="md-form">
-											<i class="fas fa-home prefix"></i> <label for="email"></label>
-											<select>
-												<option th:each="vivienda : ${viviendas}"
-													th:value="${vivienda}" th:text="${vivienda.nombre}"
-													selected></option>
-											</select>
-										</div>
-										</select>
-									</div>
+										<span class="menu-collapsed">Crear nuevo inquilino</span></a>
+									
 								</div>
 							</div>
 

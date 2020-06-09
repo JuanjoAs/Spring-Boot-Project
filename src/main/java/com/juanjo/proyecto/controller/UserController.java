@@ -50,6 +50,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.juanjo.proyecto.handler.ConsoleLogger;
+import com.juanjo.proyecto.handler.LoginHandler;
 import com.juanjo.proyecto.handler.ViviendaFirstHandler;
 import com.juanjo.proyecto.model.Alquiler;
 import com.juanjo.proyecto.model.Casa;
@@ -66,7 +67,9 @@ import com.kastkode.springsandwich.filter.annotation.BeforeElement;
 import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
 
 @Controller
-@Before( @BeforeElement(ConsoleLogger.class)) 
+@Before({
+@BeforeElement(ConsoleLogger.class)
+})
 public class UserController {
 
 	@Autowired
@@ -78,6 +81,29 @@ public class UserController {
 	@Autowired
 	private InquilinoService inquilinoService;
 
+	@RequestMapping(value = { "/nuevaCasa" }, method = RequestMethod.GET)
+	public ModelAndView landingPage(ModelMap modelMap) {
+		ModelAndView model = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			User user = userService.findUserByEmail(auth.getName());
+
+			// System.out.println("Existe usuario"+
+			// ((org.springframework.security.core.userdetails.User)
+			// auth.getPrincipal()).getUsername());
+			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
+			model.addObject("header", "sidebarLog");
+			model.addObject("notificaciones", getNumNotificaciones());
+
+		} else {
+			// model.addObject("header", "sidebarLogOut");
+			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
+			return model;
+		}
+		model.setViewName("casa/addCasa");// si no esta logueado, se ira directamente al alnding page
+		return model;
+	}
+	
 	@Before( @BeforeElement(ViviendaFirstHandler.class)) 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public ModelAndView home(ModelMap modelMap) {
@@ -242,6 +268,29 @@ public class UserController {
 		model.addObject("anoDinero", tabla2);
 		model.setViewName("graphs/homePrice");
 		model = añadirNavbarOptions(model, user);
+		return model;
+	}
+	@RequestMapping(value = { "/gestionarInquilinos" }, method = RequestMethod.GET)
+	public ModelAndView gInquilino(ModelMap modelMap) {
+		ModelAndView model = new ModelAndView();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
+			User user = userService.findUserByEmail(auth.getName());
+
+			// System.out.println("Existe usuario"+
+			// ((org.springframework.security.core.userdetails.User)
+			// auth.getPrincipal()).getUsername());
+			model.addObject("userName", user.getFirstname() + " " + user.getLastname());
+			model.addObject("header", "sidebarLog");
+			model.addObject("notificaciones", getNumNotificaciones());
+
+		} else {
+			// model.addObject("header", "sidebarLogOut");
+			model.setViewName("home/landing-page");// si no esta logueado, se ira directamente al alnding page
+			return model;
+		}
+
+		model.setViewName("graphs/gestionarInquilinos");
 		return model;
 	}
 	@RequestMapping(value = { "/gestionarReserva" }, method = RequestMethod.GET)
@@ -632,8 +681,7 @@ public class UserController {
 
 		String data = "";
 		try {
-			File myObj = new File(
-					"C:\\Users\\Juanjo\\Documents\\NetBeansProjects\\proyecto-final-grado-funcional\\src\\main\\resources\\templates\\noticias.txt");
+			File myObj = new File("C:\\Users\\Juanjo\\Documents\\NetBeansProjects\\proyecto-final-grado-funcional\\src\\main\\resources\\templates\\noticias.txt");
 			Scanner myReader = new Scanner(myObj);
 			while (myReader.hasNextLine()) {
 				data += myReader.nextLine();
@@ -696,8 +744,26 @@ public class UserController {
 		Casa c = casaService.findCasaByCodVivienda(request.getParameter("casa"));
 		Alquiler a = new Alquiler();
 		a.setCasa(c);
-		a.setFechaEntrada(request.getParameter("event-start-date"));
-		a.setFechaSalida(request.getParameter("event-end-date"));
+		SimpleDateFormat formatter1=new SimpleDateFormat("yyyy-MM-DD");
+		Calendar cal=Calendar.getInstance();
+		Date date1=new Date();
+		try {
+			date1=formatter1.parse(request.getParameter("event-start-date"));
+			
+			cal.setTime(date1);
+			a.setFechaEntrada(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+Calendar.YEAR);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+		try {
+			date1=formatter1.parse(request.getParameter("event-end-date"));
+			cal=Calendar.getInstance();
+			cal.setTime(date1);
+			a.setFechaSalida(cal.get(Calendar.MONTH)+"/"+cal.get(Calendar.DAY_OF_MONTH)+"/"+Calendar.YEAR);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}  
+		
 		a.setPrecio(Float.parseFloat(request.getParameter("price")));
 		if(request.getParameter("selectInquilinosNavbar")!=null) {
 			a.setInquilino(inquilinoService.findById(Integer.parseInt(request.getParameter("selectInquilinosNavbar"))));

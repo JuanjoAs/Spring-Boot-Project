@@ -18,6 +18,13 @@ hr{
 	padding: 20px;
   	width: 115%;
 }
+.display-sesion{
+	display: none;
+}
+.flex-row-content-center{
+	flex-direction:row;
+	justify-content: center;
+}
 body{
 	background-image: url(https://www.copiadorassubbetica.com/images/bg-patron.png);
 }
@@ -36,6 +43,9 @@ body{
 	padding-left:0px !important;
 	padding-top:40px;
 } 
+.display-sesion{
+	display: block;
+}
 }
 
 
@@ -45,6 +55,9 @@ body{
 	padding-left:225px !important;
 	padding-top:40px;
 } 
+.display-sesion{
+	display: block;
+}
  }
 
 @media (min-width: 992px)  {
@@ -53,6 +66,9 @@ body{
 	padding-left:225px !important;
 	padding-top:40px;
 } 
+.display-sesion{
+	display: none;
+}
 	
 }
 
@@ -149,3 +165,4 @@ body{
   padding-left: 10px;
 }
 /* SIDEBAR END */
+/* DATEPICKER STYLES */

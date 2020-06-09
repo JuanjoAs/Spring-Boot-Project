@@ -30,7 +30,7 @@ public class User implements Serializable {
 	private String password;
 
 	//bi-directional many-to-one association to Casa
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user",fetch = FetchType.EAGER)
 	private List<Casa> casas;
 	
 

@@ -1,12 +1,4 @@
 Version 0.1<br>Lanzamiento de la primera version estable de la web.<br>
-Version 0.2<br>Lanzamiento de la segunda version estable de la web.<br>
-Version 0.3<br>Lanzamiento de la tercera version estable de la web.<br>
-Version 0.4<br>Lanzamiento de la primera version estable de la web.<br>
-Version 0.5<br>Lanzamiento de la segunda version estable de la web.<br>
-Version 0.6<br>Lanzamiento de la tercera version estable de la web.<br>
-Version 0.7<br>Lanzamiento de la primera version estable de la web.<br>
-Version 0.8<br>Lanzamiento de la segunda version estable de la web.<br>
-Version 0.9<br>Lanzamiento de la tercera version estable de la web.<br>
-Version 1.0<br>Lanzamiento de la primera version estable de la web.<br>
-Version 1.1<br>Lanzamiento de la segunda version estable de la web.<br>
-Version 1.2<br>Lanzamiento de la tercera version estable de la web.<br>
+Version 0.2<br>Implementacion de las gráficas para tener informacion de las ganancias.<br>
+Version 0.3<br>Implementacion de noticias y la creacion de nuevos elementos en la BBDD.<br>
+Version 0.4<br>API, interceptors y tablas para la gestión de datos.<br>

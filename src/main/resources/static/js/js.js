@@ -27,10 +27,6 @@ function SidebarCollapse () {
     
     $('#collapse-icon').toggleClass('fa-angle-double-left fa-angle-double-right');
 }
-//-------------------------------------
-//-----------CALENDARIO----------------
-//-------------------------------------
-
 function anadirInquilino () {
 	var x = document.getElementById("botonAnadirInquilino");
 	  if (x.style.display === "none") {

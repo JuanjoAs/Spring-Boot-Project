@@ -11,6 +11,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" th:href="@{styles/style.css}" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+
 <script src="https://kit.fontawesome.com/33a002ef8f.js" crossorigin="anonymous"></script>
 	
 	
@@ -56,11 +57,13 @@
                 type: "button",
                 id: "field",
                 value: "Añadir reserva",
-                onclick: "addReserva()"
+               
+                
            });//añadir con un modal simplon
 
    		$(".tabulator-footer").append(r);
 		});
+		
 	function addReserva(){
 		
 	}
@@ -116,6 +119,7 @@
 		
 		console.log([[${listaAlquiler}]]);
 		table = new Tabulator("#example-table", {
+			
 		data:[[${listaAlquiler}]],//load row data from array
 		layout:"fitColumns",      //fit columns to width of table
 		responsiveLayout:"hide",  //hide columns that dont fit on the table
