@@ -67,6 +67,10 @@ function overlay(isShow){
 	  overlay(false);
 	  $("#sidebar-container").removeClass( "d-none d-md-block" )
 }
+	function cerrarSidebar(){
+		console.log("activo cambio")
+		$("#sidebar-container").addClass( "d-none d-md-block" );
+	}
 	
 $(function() {
 	
@@ -88,7 +92,7 @@ $(function() {
 	    xDown = firstTouch.clientX;                                      
 	    yDown = firstTouch.clientY;                                      
 	};                                                
-
+	
 	function handleTouchMove(evt) {
 	    if ( ! xDown || ! yDown ) {
 	        return;
@@ -105,7 +109,19 @@ $(function() {
 	        	$("#sidebar-container").addClass( "d-none d-md-block" );
 	        	console.log("se cierra:"+xDiff);
 	        } else if(xDiff<-7){
-	        	$("#sidebar-container").removeClass("d-none d-md-block");
+	        	const container = document.getElementById('table');
+	        	if(container){
+	        		if(container.scrollLeft>0){
+	        			
+	        		}else{
+	        			$("#sidebar-container").removeClass("d-none d-md-block");
+	        		}
+	        	}
+	        	else{
+	        		$("#sidebar-container").removeClass("d-none d-md-block");
+	        	}
+	        	
+	        	
 	        	console.log("se abre:"+xDiff );
 	        }
 	    } else {

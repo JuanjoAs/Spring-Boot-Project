@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 
 @Configuration
@@ -19,5 +20,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		return bCryptPasswordEncoder;
 	}
+	@Bean
+	  public ClassLoaderTemplateResolver emailTemplateResolver(){
+	    ClassLoaderTemplateResolver emailTemplateResolver=new ClassLoaderTemplateResolver();
+	    emailTemplateResolver.setPrefix("templates/");
+	    emailTemplateResolver.setTemplateMode("HTML5");
+	    emailTemplateResolver.setSuffix(".html");
+	    emailTemplateResolver.setTemplateMode("XHTML");
+	    emailTemplateResolver.setCharacterEncoding("UTF-8");
+	    emailTemplateResolver.setOrder(1);
+	    return emailTemplateResolver;
+	  }
 
 }

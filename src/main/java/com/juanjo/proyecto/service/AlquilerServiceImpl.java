@@ -34,6 +34,7 @@ public class AlquilerServiceImpl implements AlquilerService {
 	@Override
 	public void saveAlquiler(Alquiler alquiler) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		alquiler.setUser(userService.findUserByEmail(((org.springframework.security.core.userdetails.User) auth.getPrincipal()).getUsername()));
 		alquilerRepository.save(alquiler);
 	}
 

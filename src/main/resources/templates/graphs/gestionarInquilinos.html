@@ -32,7 +32,7 @@
 
 				<div class="row">
 					<div class="col-12">
-						<div id="table">
+						<div id="table" class="overflow-auto" onmouseenter="cerrarSidebar()">
 							<table id="myTable" class="table">
 								<thead class="thead-dark">
 									<tr>
@@ -71,7 +71,9 @@
 		src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
+			
 		$('#myTable').DataTable({
+			responsive: true,
 			ajax: {
 		        url: '/api/data'
 		       

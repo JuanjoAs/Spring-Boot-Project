@@ -55,14 +55,18 @@
 		$(document).ready(function() {
 			var r = $('<input/>').attr({
                 type: "button",
-                id: "field",
+                id: "btnAddReservasList",
                 value: "Añadir reserva",
-               
                 
            });//añadir con un modal simplon
 
    		$(".tabulator-footer").append(r);
+   		$("#btnAddReservasList").click(function() {
+   			$('#modalAñadirReserva').modal();
+   		});
 		});
+	
+	
 		
 	function addReserva(){
 		
@@ -116,7 +120,12 @@
 		};
 		
 		var table;
-		
+		var printIcon = function(cell, formatterParams){ //plain text value
+		    return "<i class='fas fa-print'></i>";
+		};
+		function pdfGenerate(id){ //plain text value
+			window.location.href = "http://localhost:8080/api/pdf/"+id;
+		};
 		console.log([[${listaAlquiler}]]);
 		table = new Tabulator("#example-table", {
 			
@@ -137,6 +146,7 @@
 		columns:[                 //define the table columns
 			{title:"ID", field:"id", editor:false,headerFilter:true,visible:false},
 			{title:"Vivienda", field:"casa", hozAlign:"left", editor:false,headerFilter:true,headerFilterPlaceholder:"Código de vivienda"},
+			{title:"Imprimir",formatter:printIcon, width:40, hozAlign:"center", cellClick:function(e, cell){pdfGenerate(cell.getRow().getData().id)},visible:false},
 			{title:"Inquilino", field:"inquilino", hozAlign:"left", editor:false,headerFilter:true,headerFilterPlaceholder:"Dni de inquilino"},
 			{title:"Precio", field:"precio", hozAlign:"left", editor:false,headerFilter:true,headerFilterPlaceholder:"Precio",formatter:"money", formatterParams:{decimal:",",thousand:".",symbol:"€",symbolAfter:"€",precision:false,}},
 			{title:"Fecha de entrada", field:"startDate", sorter:"date", hozAlign:"left",editor:false,headerFilter:true,headerFilterPlaceholder:"Fecha de entrada",sorter:"datetime", sorterParams:{

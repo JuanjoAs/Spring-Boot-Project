@@ -58,9 +58,13 @@
 					class="list-group-item list-group-item-action bg-dark text-white">
 					<span class="menu-collapsed">Gestionar inquilinos</span>
 				</a>
+				<button data-toggle="modal" data-target="#modalAñadirCasa"
+					class="list-group-item list-group-item-action bg-dark text-white">
+					<span class=" ml-2 menu-collapsed">Añadir vivienda</span>
+				</button>
 				
 			</div>
-			<a href="#submenu2" data-toggle="collapse" aria-expanded="false"
+		<!--	<a href="#submenu2" data-toggle="collapse" aria-expanded="false"
 				class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
 				<div class="d-flex w-100 justify-content-start align-items-center">
 					<span class="fa fa-user fa-fw mr-3"></span> <span
@@ -68,13 +72,10 @@
 						class="submenu-icon ml-auto"></span>
 				</div>
 			</a>
-			<!-- Submenu content -->
-			<div id='submenu2' class="collapse sidebar-submenu">
+			<!-- Submenu content 
+		 	<div id='submenu2' class="collapse sidebar-submenu">
 
-				<button data-toggle="modal" data-target="#modalAñadirCasa"
-					class="list-group-item list-group-item-action bg-dark text-white">
-					<span class=" ml-2 menu-collapsed">Añadir vivienda</span>
-				</button>
+				
 				<a href="#"
 					class="list-group-item list-group-item-action bg-dark text-white">
 					<span class="menu-collapsed">Configuración</span>
@@ -82,7 +83,7 @@
 					class="list-group-item list-group-item-action bg-dark text-white">
 					<span class="menu-collapsed">Contraseña</span>
 				</a>
-			</div>
+			</div> -->
 			<a href="/noticias" th:href="@{/noticias}"
 				class="bg-dark list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-start align-items-center">
@@ -91,10 +92,10 @@
 				</div>
 			</a>
 			<!-- Separator with title -->
-			<li
-				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
-				<small>OPTIONS</small>
-			</li>
+<!-- 			<li -->
+<!-- 				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"> -->
+<!-- 				<small>OPTIONS</small> -->
+<!-- 			</li> -->
 			<!-- /END Separator -->
 			<a th:href="@{/calendario}"
 				class="bg-dark list-group-item list-group-item-action">
@@ -112,16 +113,16 @@
 						th:utext="${notificaciones}"></span></span>
 				</div>
 			</a>
-			<!-- Separator without title -->
-			<li
-				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"><small>SOPORTE</small></li>
-			<!-- /END Separator -->
-			<a th:action="@{/soporte}" class="bg-dark list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-start align-items-center">
-					<span class="fa fa-question fa-fw mr-3"></span> <span
-						class="menu-collapsed">Soporte</span>
-				</div>
-			</a>
+<!-- 			<!-- Separator without title -->
+<!-- 			<li -->
+<!-- 				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"><small>SOPORTE</small></li> -->
+<!-- 			<!-- /END Separator --> 
+<!-- 			<a th:action="@{/soporte}" class="bg-dark list-group-item list-group-item-action"> -->
+<!-- 				<div class="d-flex w-100 justify-content-start align-items-center"> -->
+<!-- 					<span class="fa fa-question fa-fw mr-3"></span> <span -->
+<!-- 						class="menu-collapsed">Soporte</span> -->
+<!-- 				</div> -->
+<!-- 			</a> -->
 
 		</ul>
 
@@ -289,7 +290,7 @@
 
 	<div th:fragment="navbar">
 		<nav class="navbar navbar-expand-md navbar-dark navColor sticky-top navsize ">
-			<button onclick="toggleSidebar()" class="navbar-toggler" type="button"
+			<button id="btnSidebar" onclick="toggleSidebar()" class="navbar-toggler" type="button"
 				data-toggle="collapse" data-target="#navbarNavDropdown"
 				aria-controls="navbarNavDropdown" aria-expanded="false"
 				aria-label="Toggle navigation">

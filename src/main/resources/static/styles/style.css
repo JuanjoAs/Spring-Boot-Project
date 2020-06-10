@@ -134,7 +134,12 @@ body{
             background-color:white;
             color: black;
  }
- 
+ &::-webkit-scrollbar {
+        display: none;
+    }
+    &::scrollbar {
+        display: none;
+    }
  .sb-sidenav-footer {
     padding: 0.75rem;
     width: 225px;
