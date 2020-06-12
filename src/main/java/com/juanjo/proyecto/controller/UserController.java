@@ -264,7 +264,7 @@ public class UserController {
 		model.addObject("inv", inv);
 		model.addObject("ano", "2020");
 		model.addObject("anoDinero", tabla2);
-		model.setViewName("graphs/homePrice");
+		model.setViewName("home/homePrice");
 		model = añadirNavbarOptions(model, user);
 		return model;
 	}
@@ -289,7 +289,7 @@ public class UserController {
 			return model;
 		}
 
-		model.setViewName("graphs/gestionarInquilinos");
+		model.setViewName("inquilino/gestionarInquilinos");
 		return model;
 	}
 
@@ -343,7 +343,7 @@ public class UserController {
 			listaReservas.add(obj);
 		}
 		model.addObject("listaAlquiler", listaReservas);
-		model.setViewName("graphs/gestionarReservas");
+		model.setViewName("reservas/gestionarReservas");
 		model = añadirNavbarOptions(model, user);
 		return model;
 	}
@@ -425,7 +425,7 @@ public class UserController {
 			return model;
 		}
 		model = añadirNavbarOptions(model, user);
-		model.setViewName("home/notificaciones");
+		model.setViewName("notificaciones/notificaciones");
 		return model;
 	}
 
@@ -471,15 +471,17 @@ public class UserController {
 
 		return notificaciones;
 	}
+	
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
-	public ModelAndView login() {
+	public ModelAndView loginError(@RequestParam(value = "error", required=false) String error) {
 		ModelAndView model = new ModelAndView();
-
+		if(error!=null) {
+			model.addObject("error", "Error al inciciar sesion. Vuelva a intentarlo");
+		}
 		model.setViewName("home/landing-page");
 		return model;
 	}
-
 	@RequestMapping(value = { "/calendario" }, method = RequestMethod.GET)
 	public ModelAndView calendario() {
 		ModelAndView model = new ModelAndView();
@@ -521,7 +523,7 @@ public class UserController {
 		}
 		model.addObject("alquiler", new Alquiler());
 		model = añadirNavbarOptions(model, user);
-		model.setViewName("home/calendario");
+		model.setViewName("reservas/calendario");
 		return model;
 	}
 
@@ -673,7 +675,7 @@ public class UserController {
 		}
 		model.addObject("noticias", getNoticias());
 		model = añadirNavbarOptions(model, user);
-		model.setViewName("home/noticias");
+		model.setViewName("noticias/noticias");
 		return model;
 	}
 
@@ -803,7 +805,7 @@ public class UserController {
 		ModelAndView model = new ModelAndView();
 		User user = new User();
 		model.addObject("user", user);
-		model.setViewName("user/signup");
+		model.setViewName("user/register");
 		return model;
 	}
 	/*

@@ -76,7 +76,7 @@
 														class="form-control">
 														
 													<div class="input-group-prepend input-group-append">
-														<div class="input-group-text">to</div>
+														<div class="input-group-text">-</div>
 													</div>
 													<input name="event-end-date" type="text"
 														class="form-control">
@@ -87,9 +87,9 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default"
-										data-dismiss="modal">Cancel</button>
+										data-dismiss="modal">Cancelar</button>
 									<button type="submit" class="btn btn-primary" id="save-event">
-										Save</button>
+										Guardar</button>
 								</div>
 								</form>
 							</div>
@@ -124,6 +124,19 @@ function deleteEvent(event) {
 }
 
 $(function() {
+	
+	//Introducir valores en navbar
+	var inquilino=[[${inquilinos}]];
+	var text="";
+	for (var r of inquilino){
+		console.log("<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>");
+		text+="<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>";
+	}
+	text+="<option hidden disabled selected value> -- Selecciona un inquilino -- </option>";
+	document.getElementById("selectInquilinosNavbar").innerHTML =text;
+	$('#selectInquilinosNavbar').selectpicker('refresh');
+	//-----------------------------
+	
 	$(".table-condensed").css("border", "thick");
     var currentYear = new Date().getFullYear();
  var datos=new Array();

@@ -1,216 +1,253 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8"/>
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+<meta charset="UTF-8" />
 <title>Home</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" th:href="@{styles/lp-styles.css}"/>
-<link rel="stylesheet" type="text/css" th:href="@{styles/lp2-styles.css}"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://kit.fontawesome.com/33a002ef8f.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" th:href="@{styles/lp-styles.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{styles/lp2-styles.css}" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/33a002ef8f.js"
+	crossorigin="anonymous"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
 <style type="text/css">
-    html,
-    body,
-    header,
-    .view {
-      height: 100%;
-    }
+html, body, header, .view {
+	height: 100%;
+}
 
-    @media (max-width: 740px) {
-      html,
-      body,
-      header,
-      .view {
-        height: 1000px;
-      }
-    }
+@media ( max-width : 740px) {
+	html, body, header, .view {
+		height: 1000px;
+	}
+}
 
-    @media (min-width: 800px) and (max-width: 850px) {
-      html,
-      body,
-      header,
-      .view {
-        height: 650px;
-      }
-    }
-    @media (min-width: 800px) and (max-width: 850px) {
-              .navbar:not(.top-nav-collapse) {
-                  background: #1C2331!important;
-              }
-          }
-  </style>
+@media ( min-width : 800px) and (max-width: 850px) {
+	html, body, header, .view {
+		height: 650px;
+	}
+}
+
+@media ( min-width : 800px) and (max-width: 850px) {
+	.navbar
+	:not
+	 
+	(
+	.top-nav-collapse
+	 
+	)
+	{
+	background
+	:
+	 
+	#1C2331
+	 
+	!
+	important
+	;
+	
+	
+}
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
-    <div class="container">
+	<!-- Navbar -->
+	<nav
+		class="navbar fixed-top navbar-expand-lg navbar-dark scrolling-navbar">
+		<div class="container">
 
-      <!-- Brand -->
-      <a class="navbar-brand" th:href="@{/}"  >
-        
-      </a>
+			<!-- Brand -->
+			<a class="navbar-brand" th:href="@{/}"> </a>
 
-      <!-- Collapse -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+			<!-- Collapse -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-      <!-- Links -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<!-- Links -->
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        <!-- Left -->
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Inicio
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#sobre"  >Sobre Check-It</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{signup}" >Registrate</a>
-          </li>
-          
-        </ul>
+				<!-- Left -->
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link" href="#">Inicio
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#sobre">Sobre
+							Check-It</a></li>
+					<li class="nav-item"><a class="nav-link" th:href="@{signup}">Registrate</a>
+					</li>
 
-        <!-- Right -->
-        <ul class="navbar-nav nav-flex-icons">
-          <li class="nav-item">
-            <a href="https://github.com/JuanjoAs" class="nav-link border border-light rounded"
-               >
-              <i class="fab fa-github mr-2"></i>Juan José Arévalo - GitHub
-            </a>
-          </li>
-        </ul>
+				</ul>
 
-      </div>
+				<!-- Right -->
+				<ul class="navbar-nav nav-flex-icons">
+					<li class="nav-item"><a href="https://github.com/JuanjoAs"
+						class="nav-link border border-light rounded"> <i
+							class="fab fa-github mr-2"></i>Juan José Arévalo - GitHub
+					</a></li>
+				</ul>
 
-    </div>
-  </nav>
-  <!-- Navbar -->
+			</div>
 
-  <!-- Full Page Intro -->
-  <div class="view full-page-intro" style="background-image: url('/images/lpimg.jpg'); background-repeat: no-repeat; background-size: cover;">
+		</div>
+	</nav>
+	<!-- Navbar -->
 
-    <!-- Mask & flexbox options-->
-    <div class="mask rgba-black-light d-flex justify-content-center align-items-center">
+	<!-- Full Page Intro -->
+	<div class="view full-page-intro"
+		style="background-image: url('/images/lpimg.jpg'); background-repeat: no-repeat; background-size: cover;">
 
-      <!-- Content -->
-      <div class="container">
+		<!-- Mask & flexbox options-->
+		<div
+			class="mask rgba-black-light d-flex justify-content-center align-items-center">
 
-        <!--Grid row-->
-        <div class="row wow fadeIn">
+			<!-- Content -->
+			<div class="container">
 
-          <!--Grid column-->
-          <div class="col-md-6 mb-4 white-text text-center text-md-left">
+				<!--Grid row-->
+				<div class="row wow fadeIn">
 
-            <h1 class="display-4 font-weight-bold">Gestiona tus viviendas con Check-It</h1>
+					<!--Grid column-->
+					<div
+						class="col-xs-12 col-md-6  mb-4 white-text text-center text-md-left">
 
-            <hr class="hr-light">
+						<h1 class="display-4 font-weight-bold">Gestiona tus viviendas
+							con Check-It</h1>
 
-            <p>
-              <strong>La mejor forma de llevar una gestion de tus viviendas de manera online</strong>
-            </p>
+						<hr class="hr-light">
 
-            <p class="mb-4 d-none d-md-block">
-              <strong>Una web facilmente utilizable y con multiples funciones para realizar el seguimiento de los ciclos anuales de la manera mas sencilla.</strong>
-            </p>
+						<p>
+							<strong>La mejor forma de llevar una gestion de tus
+								viviendas de forma online</strong>
+						</p>
 
-            <a   th:href="@{signup}" class="btn btn-indigo btn-lg">Registrarse
-              <i class="fas fa-sign-in-alt"></i>
-            </a>
+						<p class="mb-4 d-none d-md-block">
+							<strong>Una web facilmente utilizable y con multiples
+								funciones para realizar el seguimiento de los ciclos anuales de
+								la manera más sencilla.</strong>
+						</p>
 
-          </div>
-          <!--Grid column-->
+						<a th:href="@{signup}" class="btn btn-indigo btn-lg">Registrarse
+							<i class="fas fa-sign-in-alt"></i>
+						</a>
 
-          <!--Grid column-->
-          <div class="col-md-6 col-xl-5 mb-4">
+					</div>
+					<!--Grid column-->
 
-            <!--Card-->
-            <div class="card">
+					<!--Grid column-->
+					<div class="col-md-6 col-xs-12 col-xl-5 mb-4">
 
-              <!--Card content-->
-              <div class="card-body">
+						<!--Card-->
+						<div class="card">
 
-                <!-- Form -->
-                <form action="/login" th:action="@{/login}" method="post" >
-                  <!-- Heading -->
-                  <h3 class="dark-grey-text text-center">
-                    <strong>Inicia Sesion</strong>
-                  </h3>
-                  <hr>
-                  <div class="md-form">
-                    <i class="fas fa-envelope prefix grey-text"></i>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="example@checkit.com" required autofocus>
-                    <label for="email">E-mail</label>
-                  </div>
+							<!--Card content-->
+							<div class="card-body">
 
-                  <div class="md-form">
-                    <i class="fas fa-unlock-alt prefix grey-text"></i>
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
-       
-                    <label for="password">Contraseña</label>
-                  </div>
+								<!-- Form -->
+								<form action="/login" th:action="@{/login}" method="post">
+									<!-- Heading -->
+									<h3 class="dark-grey-text text-center">
+										<strong>Inicia Sesion</strong>
+									</h3>
+									<hr>
+									<th:block th:if="${error!=null}">
+										<p class="mb-4 d-none d-md-block text-danger text-center">
+											<strong>Error al iniciar sesion.
+											Vuelve a intentarlo.</strong>
+										</p>
+									</th:block>
+									<div class="md-form">
+										<i class="fas fa-envelope prefix grey-text"></i> <input
+											type="email" id="email" name="email" class="form-control"
+											placeholder="example@checkit.com" required autofocus>
+										<label for="email">E-mail</label>
+									</div>
 
-                  <div class="text-center">
-                    <button class="btn btn-indigo" type="submit">Iniciar Sesión</button>
-                  </div>
+									<div class="md-form">
+										<i class="fas fa-unlock-alt prefix grey-text"></i> <input
+											type="password" id="password" name="password"
+											class="form-control" placeholder="Contraseña" required>
 
-                </form>
-                <!-- Form -->
+										<label for="password">Contraseña</label>
+									</div>
 
-              </div>
+									<div class="text-center">
+										<button class="btn btn-indigo" type="submit">Iniciar
+											Sesión</button>
+									</div>
 
-            </div>
-            <!--/.Card-->
+								</form>
+								<!-- Form -->
 
-          </div>
-          <!--Grid column-->
+							</div>
 
-        </div>
-        <!--Grid row-->
+						</div>
+						<!--/.Card-->
 
-      </div>
-      <!-- Content -->
+					</div>
+					<!--Grid column-->
 
-    </div>
-    <!-- Mask & flexbox options-->
+				</div>
+				<!--Grid row-->
 
-  </div>
-  <!-- Full Page Intro -->
-  
-  <!-- Main Layout -->
-  <!-- Main Layout -->
+			</div>
+			<!-- Content -->
 
-  <!--Footer-->
-  <footer class="page-footer text-center font-small mt-4 wow fadeIn">
+		</div>
+		<!-- Mask & flexbox options-->
 
-   
-    <!--Copyright-->
-    <div class="footer-copyright py-3">
-      © 2020 Copyright:
-      <a href="https://github.com/JuanjoAs"  > Juan José Arévalo </a>
-    </div>
-    <!--/.Copyright-->
+	</div>
+	<!-- Full Page Intro -->
 
-  </footer>
-  <!--/.Footer-->
+	<!-- Main Layout -->
+	<!-- Main Layout -->
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-  
-  <script type="text/javascript">
-    // Animations initialization
-    new WOW().init();
-  </script>
-<script th:src="@{js/lp-js.js}"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<!--Footer-->
+	<footer class="page-footer text-center font-small mt-4 wow fadeIn">
+
+
+		<!--Copyright-->
+		<div class="footer-copyright py-3">
+			© 2020 Copyright: <a href="https://github.com/JuanjoAs"> Juan
+				José Arévalo </a>
+		</div>
+		<!--/.Copyright-->
+
+	</footer>
+	<!--/.Footer-->
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+	<script type="text/javascript">
+		// Animations initialization
+		new WOW().init();
+	</script>
+	<script th:src="@{js/lp-js.js}"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 </body>
 </html>

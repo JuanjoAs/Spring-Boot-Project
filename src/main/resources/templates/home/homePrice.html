@@ -59,20 +59,17 @@ window.onload = function () {
 
 	tabla2.render();
 		  
+	//Introducir valores en navbar
 	var inquilino=[[${inquilinos}]];
 	var text="";
-	
 	for (var r of inquilino){
 		console.log("<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>");
 		text+="<option data-tokens='"+r["nombre"]+" "+r["apellido"]+" "+r["dni"] +"' value='"+r["id"]+"'>"+r["nombre"]+" "+r["apellido"] + "</option>";
 	}
-
-
-	
-	
-	
+	text+="<option hidden disabled selected value> -- Selecciona un inquilino -- </option>";
 	document.getElementById("selectInquilinosNavbar").innerHTML =text;
 	$('#selectInquilinosNavbar').selectpicker('refresh');
+	//-----------------------------
 	console.log(text);
 	 
 	 var pri=[];
