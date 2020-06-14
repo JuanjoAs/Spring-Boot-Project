@@ -66,40 +66,7 @@
 				</button>
 
 			</div>
-			<!--	<a href="#submenu2" data-toggle="collapse" aria-expanded="false"
-				class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-				<div class="d-flex w-100 justify-content-start align-items-center">
-					<span class="fa fa-user fa-fw mr-3"></span> <span
-						class="menu-collapsed">Perfil</span> <span
-						class="submenu-icon ml-auto"></span>
-				</div>
-			</a>
-			<!-- Submenu content 
-		 	<div id='submenu2' class="collapse sidebar-submenu">
-
-				
-				<a href="#"
-					class="list-group-item list-group-item-action bg-dark text-white">
-					<span class="menu-collapsed">Configuración</span>
-				</a> <a href="#"
-					class="list-group-item list-group-item-action bg-dark text-white">
-					<span class="menu-collapsed">Contraseña</span>
-				</a>
-			</div> -->
-			<a href="/noticias" th:href="@{/noticias}"
-				class="bg-dark list-group-item list-group-item-action">
-				<div class="d-flex w-100 justify-content-start align-items-center">
-					<span class="fa fa-newspaper fa-fw mr-3"></span> <span
-						class="menu-collapsed">Noticias</span>
-				</div>
-			</a>
-			<!-- Separator with title -->
-			<!-- 			<li -->
-			<!-- 				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"> -->
-			<!-- 				<small>OPTIONS</small> -->
-			<!-- 			</li> -->
-			<!-- /END Separator -->
-			<a th:href="@{/calendario}"
+				<a th:href="@{/calendario}"
 				class="bg-dark list-group-item list-group-item-action">
 				<div class="d-flex w-100 justify-content-start align-items-center">
 					<span class="fa fa-calendar fa-fw mr-3"></span> <span
@@ -115,16 +82,51 @@
 						th:utext="${notificaciones}"></span></span>
 				</div>
 			</a>
-			<!-- 			<!-- Separator without title -->
-			<!-- 			<li -->
-			<!-- 				class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"><small>SOPORTE</small></li> -->
-			<!-- 			<!-- /END Separator -->
-			<!-- 			<a th:action="@{/soporte}" class="bg-dark list-group-item list-group-item-action"> -->
-			<!-- 				<div class="d-flex w-100 justify-content-start align-items-center"> -->
-			<!-- 					<span class="fa fa-question fa-fw mr-3"></span> <span -->
-			<!-- 						class="menu-collapsed">Soporte</span> -->
-			<!-- 				</div> -->
-			<!-- 			</a> -->
+			<!-- Separator with title -->
+						<li
+							class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+							<small>HERRAMIENTAS</small>
+						</li>
+			<!-- /END Separator -->
+			
+			
+			<a href="/noticias" th:href="@{/noticias}"
+				class="bg-dark list-group-item list-group-item-action">
+				<div class="d-flex w-100 justify-content-start align-items-center">
+					<span class="fa fa-newspaper fa-fw mr-3"></span> <span
+						class="menu-collapsed">Noticias</span>
+				</div>
+			</a>
+<!-- 			<a href="#submenu2" data-toggle="collapse" aria-expanded="false" -->
+<!-- 				class="bg-dark list-group-item list-group-item-action flex-column align-items-start"> -->
+<!-- 				<div class="d-flex w-100 justify-content-start align-items-center"> -->
+<!-- 					<span class="fa fa-user fa-fw mr-3"></span> <span -->
+<!-- 						class="menu-collapsed">Perfil</span> <span -->
+<!-- 						class="submenu-icon ml-auto"></span> -->
+<!-- 				</div> -->
+<!-- 			</a> -->
+<!-- 			<!-- Submenu content --> 
+<!-- 		 	<div id='submenu2' class="collapse sidebar-submenu"> -->
+
+				
+<!-- 				<a href="#" -->
+<!-- 					class="list-group-item list-group-item-action bg-dark text-white"> -->
+<!-- 					<span class="menu-collapsed">Configuración</span> -->
+<!-- 				</a> <a href="#" -->
+<!-- 					class="list-group-item list-group-item-action bg-dark text-white"> -->
+<!-- 					<span class="menu-collapsed">Contraseña</span> -->
+<!-- 				</a> -->
+<!-- 			</div> -->
+<!-- 			 			Separator without title -->
+<!-- 						<li -->
+<!-- 							class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed"><small>SOPORTE</small></li> -->
+<!-- 						/END Separator -->
+<!-- 						<a th:action="@{/soporte}" class="bg-dark list-group-item list-group-item-action"> -->
+<!-- 							<div class="d-flex w-100 justify-content-start align-items-center"> -->
+<!-- 								<span class="fa fa-question fa-fw mr-3"></span> <span -->
+<!-- 									class="menu-collapsed">Soporte</span> -->
+<!-- 							</div> -->
+<!-- 						</a>  -->
 
 		</ul>
 

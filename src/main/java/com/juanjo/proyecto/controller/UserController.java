@@ -268,7 +268,7 @@ public class UserController {
 		model = añadirNavbarOptions(model, user);
 		return model;
 	}
-
+	@Before(@BeforeElement(ViviendaFirstHandler.class))
 	@RequestMapping(value = { "/gestionarInquilinos" }, method = RequestMethod.GET)
 	public ModelAndView gInquilino(ModelMap modelMap) {
 		ModelAndView model = new ModelAndView();
@@ -292,7 +292,7 @@ public class UserController {
 		model.setViewName("inquilino/gestionarInquilinos");
 		return model;
 	}
-
+	@Before(@BeforeElement(ViviendaFirstHandler.class))
 	@RequestMapping(value = { "/gestionarReserva" }, method = RequestMethod.GET)
 	public ModelAndView gReservas(ModelMap modelMap) {
 		ModelAndView model = new ModelAndView();
@@ -347,7 +347,7 @@ public class UserController {
 		model = añadirNavbarOptions(model, user);
 		return model;
 	}
-
+	@Before(@BeforeElement(ViviendaFirstHandler.class))
 	private ModelAndView añadirNavbarOptions(ModelAndView model, User user) {
 		model.addObject("viviendas", user.getCasas());
 		List<Map<String, Object>> inqu = new ArrayList<Map<String, Object>>();
@@ -482,6 +482,7 @@ public class UserController {
 		model.setViewName("home/landing-page");
 		return model;
 	}
+	@Before(@BeforeElement(ViviendaFirstHandler.class))
 	@RequestMapping(value = { "/calendario" }, method = RequestMethod.GET)
 	public ModelAndView calendario() {
 		ModelAndView model = new ModelAndView();
@@ -507,7 +508,12 @@ public class UserController {
 					o1 = new HashMap<String, Object>();
 					o1.put("id", a.getId());
 					o1.put("name", c.getNombre());
-					o1.put("location", c.getNombre());
+					if(a.getInquilino()!=null) {
+						o1.put("location", a.getInquilino().getFirstname()+" "+a.getInquilino().getLastname());
+					}else {
+						o1.put("location", "DESCONOCIDO");
+					}
+					
 					o1.put("startDate", a.getFechaEntrada());
 					o1.put("endDate", a.getFechaSalida());
 					o1.put("color", "#2C8FC9");
@@ -526,7 +532,7 @@ public class UserController {
 		model.setViewName("reservas/calendario");
 		return model;
 	}
-
+	@Before(@BeforeElement(ViviendaFirstHandler.class))
 	@RequestMapping(value = { "/nuevoInquilino" }, method = RequestMethod.GET)
 	public ModelAndView crearInquilino() {
 		ModelAndView model = new ModelAndView();
@@ -655,7 +661,7 @@ public class UserController {
 		}
 		return new ModelAndView("redirect:/home");
 	}
-
+	@Before(@BeforeElement(ViviendaFirstHandler.class))
 	@RequestMapping(value = { "/noticias" }, method = RequestMethod.GET)
 	public ModelAndView noticias() {
 		ModelAndView model = new ModelAndView();
@@ -848,7 +854,7 @@ public class UserController {
 			userService.saveUser(user);
 			model.addObject("msg", "User has been registered successfully!");
 			model.addObject("user", new User());
-			model.setViewName("user/signup");
+			return new ModelAndView("redirect:/home");
 		}
 
 		return model;
